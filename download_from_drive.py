@@ -35,7 +35,7 @@ def save_response_content(response, destination):
 
 if __name__ == "__main__":
 
-    ids_file = open("drive_zip_ids.txt",r)
+    ids_file = open("drive_zip_ids.txt",'r')
     for line in ids_file:
         id, name = line.split(",")
         download_file_from_google_drive(id,"./audio/"+name+".zip" )
