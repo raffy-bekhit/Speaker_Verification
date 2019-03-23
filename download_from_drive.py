@@ -34,7 +34,7 @@ def save_response_content(response, destination):
                 f.write(chunk)
 
 if __name__ == "__main__":
-
+    i=0
     f = open("drive_zip_ids.txt",'r')
     ids_file = f.readlines()
     for line in ids_file:
@@ -47,5 +47,6 @@ if __name__ == "__main__":
         with ZipFile("./audio/"+name+".zip",'r') as zipObj:
             zipObj.extractall("audio/"+name)
         os.remove("./audio/"+name+".zip")
-        save_spectrogram_tisv()
+        save_spectrogram_tisv(i)
         os.rmdir("./audio/"+"name")
+        i=i+1
