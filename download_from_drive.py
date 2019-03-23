@@ -41,7 +41,8 @@ if __name__ == "__main__":
         id, name = line.split(",")
         name = name.strip('\n')
         download_file_from_google_drive(id,"./audio/"+name+".zip" )
-        ZipFile.extractall(path="audio/"+name+".zip")
+        with ZipFile("./audio/"+name+".zip",'r') as zipObj:
+            zipObj.extractall(path="audio/"+name)
         save_spectrogram_tisv()
         os.remove(name+".zip")
         os.rmdir("./audio/"+"name")
