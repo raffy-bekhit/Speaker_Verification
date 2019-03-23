@@ -8,7 +8,7 @@ from utils import keyword_spot
 config = get_config()   # get arguments from parser
 
 # downloaded dataset path
-audio_path= r'C:\Users\LG\Documents\DataSets\Vctk\data'                                          # utterance dataset
+audio_path= './audio'                                          # utterance dataset
 clean_path = r'C:\Users\LG\Documents\Deep_learning\speaker_vertification\clean_testset_wav'  # clean dataset
 noisy_path = r'C:\Users\LG\Documents\Deep_learning\speaker_vertification\noisy_testset_wav'  # noisy dataset
 
@@ -137,9 +137,9 @@ def split_test_train_data():
         total_speaker_num = len(os.listdir(audio_path))
         train_speaker_num= (total_speaker_num//10)*9            # split total data 90% train and 10% test
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     #extract_noise()
     #if config.tdsv:
     #    save_spectrogram_tdsv()
     #else:
-    save_spectrogram_tisv()
+#    save_spectrogram_tisv()
