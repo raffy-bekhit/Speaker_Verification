@@ -39,7 +39,7 @@ if __name__ == "__main__":
     ids_file = f.readlines()
     for line in ids_file:
         id, name = line.split(",")
-
+        id = id.strip(' ')
         name = name.strip('\n')
         print(id," ",name)
         download_file_from_google_drive(id,"./audio/"+name+".zip" )

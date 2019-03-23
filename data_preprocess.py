@@ -126,7 +126,7 @@ def save_spectrogram_tisv():
         utterances_spec = np.array(utterances_spec)
         print(utterances_spec.shape)
         #if i<train_speaker_num:      # save spectrogram as numpy file
-        np.save(os.path.join("./speaker_verification_spectrograms", "speaker%d.npy"%i), utterances_spec)
+        np.save(os.path.join("./audio/speaker_verification_spectrograms", "speaker%d.npy"%i), utterances_spec)
         #else:
         #    np.save(os.path.join(config.test_path, "speaker%d.npy"%(i-train_speaker_num)), utterances_spec)
 
