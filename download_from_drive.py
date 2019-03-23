@@ -50,3 +50,4 @@ if __name__ == "__main__":
         save_spectrogram_tisv(i)
         shutil.rmtree("./audio/"+name, ignore_errors=True)
         i=i+1
+    f.close()
