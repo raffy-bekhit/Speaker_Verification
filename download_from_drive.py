@@ -48,5 +48,5 @@ if __name__ == "__main__":
             zipObj.extractall("audio/"+name)
         os.remove("./audio/"+name+".zip")
         save_spectrogram_tisv(i)
-        os.rmdir("./audio/"+"name")
+        os.rmdir("./audio/"+name)
         i=i+1
