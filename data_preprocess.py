@@ -51,7 +51,7 @@ def extract_noise():
 
 def save_spectrogram_tdsv():
     """ Select text specific utterance and perform STFT with the audio file.
-        Audio spectrogram files are divided as train set and test set and saved as numpy file. 
+        Audio spectrogram files are divided as train set and test set and saved as numpy file.
         Need : utterance data set (VTCK)
     """
     print("start text dependent utterance selection")
@@ -90,16 +90,16 @@ def save_spectrogram_tdsv():
 def save_spectrogram_tisv():
     """ Full preprocess of text independent utterance. The log-mel-spectrogram is saved as numpy file.
         Each partial utterance is splitted by voice detection using DB
-        and the first and the last 180 frames from each partial utterance are saved. 
+        and the first and the last 180 frames from each partial utterance are saved.
         Need : utterance data set (VTCK)
     """
     print("start text independent utterance feature extraction")
-    os.makedirs(config.train_path, exist_ok=True)   # make folder to save train file
-    os.makedirs(config.test_path, exist_ok=True)    # make folder to save test file
+    os.makedirs(config.train_path, exist_ok=True)##   # make folder to save train file
+    os.makedirs(config.test_path, exist_ok=True) ##   # make folder to save test file
 
     utter_min_len = (config.tisv_frame * config.hop + config.window) * config.sr    # lower bound of utterance length
-    total_speaker_num = len(os.listdir(audio_path))
-    train_speaker_num= (total_speaker_num//10)*9            # split total data 90% train and 10% test
+    total_speaker_num = len(os.listdir(audio_path))##
+    train_speaker_num= (total_speaker_num//10)*9 ##            # split total data 90% train and 10% test
     print("total speaker number : %d"%total_speaker_num)
     print("train : %d, test : %d"%(train_speaker_num, total_speaker_num-train_speaker_num))
     for i, folder in enumerate(os.listdir(audio_path)):
@@ -125,15 +125,21 @@ def save_spectrogram_tisv():
 
         utterances_spec = np.array(utterances_spec)
         print(utterances_spec.shape)
-        if i<train_speaker_num:      # save spectrogram as numpy file
-            np.save(os.path.join(config.train_path, "speaker%d.npy"%i), utterances_spec)
-        else:
-            np.save(os.path.join(config.test_path, "speaker%d.npy"%(i-train_speaker_num)), utterances_spec)
+        #if i<train_speaker_num:      # save spectrogram as numpy file
+        np.save(os.path.join("./speaker_verification_spectrograms", "speaker%d.npy"%i), utterances_spec)
+        #else:
+        #    np.save(os.path.join(config.test_path, "speaker%d.npy"%(i-train_speaker_num)), utterances_spec)
 
+def split_test_train_data():
+        print("start splitting data")
+        os.makedirs(config.train_path, exist_ok=True)   # make folder to save train file
+        os.makedirs(config.test_path, exist_ok=True)    # make folder to save test file
+        total_speaker_num = len(os.listdir(audio_path))
+        train_speaker_num= (total_speaker_num//10)*9            # split total data 90% train and 10% test
 
 if __name__ == "__main__":
-    extract_noise()
-    if config.tdsv:
-        save_spectrogram_tdsv()
-    else:
-        save_spectrogram_tisv()
+    #extract_noise()
+    #if config.tdsv:
+    #    save_spectrogram_tdsv()
+    #else:
+    save_spectrogram_tisv()
