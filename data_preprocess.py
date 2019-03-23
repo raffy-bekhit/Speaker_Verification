@@ -87,7 +87,7 @@ def save_spectrogram_tdsv():
     np.save(os.path.join(config.test_path, "test.npy"), utterances_spec[train_num:])
 
 
-def save_spectrogram_tisv():
+def save_spectrogram_tisv(i):
     """ Full preprocess of text independent utterance. The log-mel-spectrogram is saved as numpy file.
         Each partial utterance is splitted by voice detection using DB
         and the first and the last 180 frames from each partial utterance are saved.
@@ -102,7 +102,7 @@ def save_spectrogram_tisv():
     train_speaker_num= (total_speaker_num//10)*9 ##            # split total data 90% train and 10% test
     print("total speaker number : %d"%total_speaker_num)
     print("train : %d, test : %d"%(train_speaker_num, total_speaker_num-train_speaker_num))
-    for i, folder in enumerate(os.listdir(audio_path)):
+    for j, folder in enumerate(os.listdir(audio_path)):
         speaker_path = os.path.join(audio_path, folder)     # path of each speaker
         print("%dth speaker processing..."%i)
         utterances_spec = []
