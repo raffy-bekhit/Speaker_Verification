@@ -64,6 +64,8 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
     # TI-SV
     else:
         np_file_list = os.listdir(path)
+        print("path",path)
+        print(np_file_list)
         total_speaker = len(np_file_list)
         print(total_speaker)
 
