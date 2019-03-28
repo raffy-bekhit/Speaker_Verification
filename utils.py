@@ -65,7 +65,7 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
     else:
         np_file_list = os.listdir(path)
         total_speaker = len(np_file_list)
-		print(total_speaker)
+        print(total_speaker)
 
         if shuffle:
             selected_files = random.sample(np_file_list, speaker_num)  # select random N speakers
