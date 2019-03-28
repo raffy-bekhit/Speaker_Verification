@@ -10,8 +10,8 @@ if __name__ == "__main__":
     # start training
     if config.train:
         print("\nTraining Session")
-		if not os.path.exists(config.model_path):
-			os.makedirs(config.model_path)
+        if not os.path.exists(config.model_path):
+            os.makedirs(config.model_path)
         train(config.model_path)
     # start test
     else:
