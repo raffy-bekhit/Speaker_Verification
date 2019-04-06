@@ -35,7 +35,7 @@ def save_response_content(response, destination):
                 f.write(chunk)
 
 if __name__ == "__main__":
-    i=60
+    i=108
     f = open("drive_zip_ids.txt",'r')
     ids_file = f.readlines()
     for line in ids_file:
