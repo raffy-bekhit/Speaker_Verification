@@ -37,7 +37,7 @@ model_arg = parser.add_argument_group('Model')
 model_arg.add_argument('--hidden', type=int, default=128, help="hidden state dimension of lstm")
 model_arg.add_argument('--proj', type=int, default=64, help="projection dimension of lstm")
 model_arg.add_argument('--num_layer', type=int, default=3, help="number of lstm layers")
-model_arg.add_argument('--restore', type=str2bool, default=False, help="restore model or not")
+model_arg.add_argument('--restore', type=str2bool, default=True, help="restore model or not")
 model_arg.add_argument('--model_path', type=str, default='./tisv_model', help="model directory to save or load")
 model_arg.add_argument('--model_num', type=int, default=6, help="number of ckpt file to load")
 
