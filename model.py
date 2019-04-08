@@ -54,6 +54,7 @@ def train(path):
     with tf.Session() as sess:
 
         if True:
+                print("hi hi raffy is here AAAAAAAHHHHHHHHAAAAAAAHHHH!!!! :D :D ")        
 				# Restore saved model if the user requested it, default = True
                 try:
                         checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
