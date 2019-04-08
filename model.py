@@ -52,6 +52,24 @@ def train(path):
 
     # training session
     with tf.Session() as sess:
+
+        ckpt = tf.train.get_checkpoint_state(checkpoint_dir=os.path.join(path, "Check_Point"))
+        ckpt_list = ckpt.all_model_checkpoint_paths
+        loaded = 0
+        for model in ckpt_list:
+            if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
+                print("ckpt file is loaded !", model)
+                loaded = 1
+                saver.restore(sess, model)  # restore variables from selected ckpt file
+                break
+
+        if loaded == 0:
+            raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
+
+        #print("train file path : ", config.test_path)
+
+
+
         tf.global_variables_initializer().run()
         os.makedirs(os.path.join(path, "Check_Point"), exist_ok=True)  # make folder to save model
         os.makedirs(os.path.join(path, "logs"), exist_ok=True)          # make folder to save log
@@ -75,7 +93,7 @@ def train(path):
             if (iter+1) % 10000 == 0:
                 lr_factor /= 2                      # lr decay
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
-            if (iter+1) % 10000 == 0:
+            if (iter+1) % 5000 == 0:
                 saver.save(sess, os.path.join(path, "./Check_Point/model.ckpt"), global_step=iter//10000)
                 print("model is saved!")
 
@@ -164,5 +182,3 @@ def test(path):
                 EER_FRR = FRR
 
         print("\nEER : %0.2f (thres:%0.2f, FAR:%0.2f, FRR:%0.2f)"%(EER,EER_thres,EER_FAR,EER_FRR))
-
-
