@@ -61,7 +61,7 @@ def train(path):
         #        print("ckpt file is loaded !", model)
         #        loaded = 1
         saver.restore(sess,ckpt_list)  # restore variables from selected ckpt file
-        break
+        #break
 
         #if loaded == 0:
         #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
