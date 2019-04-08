@@ -25,7 +25,7 @@ def extract_noise():
     stacked_len = 0
     k = 0
     for i, path in enumerate(os.listdir(clean_path)):
-        clean, sr = librosa.core.load(os.path.join(clean_path, path), sr=8000)  # load clean audio
+        clean, sr = librosa.core.load(os.path.join(clean_path, path), sr=)  # load clean audio
         noisy, _ = librosa.core.load(os.path.join(noisy_path, path), sr=sr)     # load noisy audio
         noise = clean - noisy       # get noise audio by subtract clean voice from the noisy audio
         S = librosa.core.stft(y=noise, n_fft=config.nfft,

@@ -75,8 +75,9 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
         for file in selected_files:
             utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
             if shuffle:
-                utter_index = np.random.randint(0, utters.shape[0], utter_num)   # select M utterances per speaker
-                utter_batch.append(utters[utter_index])       # each speakers utterance [M, n_mels, frames] is appended
+                utter_batch.append(random.sample(utters,utter_num))
+                #utter_index 1= np.random.randint(0, utters.shape[0], utter_num)   # select M utterances per speaker
+                #utter_batch.append(utters[utter_index])       # each speakers utterance [M, n_mels, frames] is appended
             else:
                 utter_batch.append(utters[utter_start: utter_start+utter_num])
 
@@ -141,7 +142,7 @@ def similarity(embedded, w, b, N=config.N, M=config.M, P=config.proj, center=Non
 
 
 def loss_cal(S, type="softmax", N=config.N, M=config.M):
-    """ calculate loss with similarity matrix(S) eq.(6) (7) 
+    """ calculate loss with similarity matrix(S) eq.(6) (7)
     :type: "softmax" or "contrast"
     :return: loss
     """
