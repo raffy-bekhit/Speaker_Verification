@@ -53,15 +53,22 @@ def train(path):
     # training session
     with tf.Session() as sess:
 
-        ckpt = tf.train.get_checkpoint_state(checkpoint_dir=os.path.join(path, "Check_Point"))
-        ckpt_list = ckpt.model_checkpoint_path
-        loaded = 0
-        #for model in ckpt_list:
-        #    if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
-        #        print("ckpt file is loaded !", model)
-        #        loaded = 1
-        saver.restore(sess,ckpt_list)  # restore variables from selected ckpt file
-        #break
+        if config.restore:
+				# Restore saved model if the user requested it, default = True
+			try:
+				checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
+
+				if (checkpoint_state and checkpoint_state.model_checkpoint_path):
+					print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
+					saver.restore(sess, checkpoint_state.model_checkpoint_path)
+
+				else:
+					print('No model to load at {}'.format(save_dir))
+					saver.save(sess, checkpoint_path, global_step=global_step)
+
+			except tf.errors.OutOfRangeError as e:
+				print('Cannot restore checkpoint: {}'.format(e))
+        
 
         #if loaded == 0:
         #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
