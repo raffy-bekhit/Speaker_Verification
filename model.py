@@ -56,15 +56,15 @@ def train(path):
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir=os.path.join(path, "Check_Point"))
         ckpt_list = ckpt.all_model_checkpoint_paths
         loaded = 0
-        for model in ckpt_list:
-            if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
-                print("ckpt file is loaded !", model)
-                loaded = 1
-                saver.restore(sess, model)  # restore variables from selected ckpt file
-                break
+        #for model in ckpt_list:
+        #    if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
+        #        print("ckpt file is loaded !", model)
+        #        loaded = 1
+        saver.restore(sess,ckpt_list)  # restore variables from selected ckpt file
+        break
 
-        if loaded == 0:
-            raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
+        #if loaded == 0:
+        #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
 
         #print("train file path : ", config.test_path)
 
