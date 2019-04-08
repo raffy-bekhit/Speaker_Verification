@@ -67,7 +67,7 @@ def train(path):
                                 saver.save(sess, checkpoint_path, global_step=global_step)
 
                 except:
-                        print('Cannot restore checkpoint: {})
+                        print('Cannot restore checkpoint exception')
 
 
         #if loaded == 0:
