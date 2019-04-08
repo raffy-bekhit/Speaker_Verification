@@ -66,8 +66,8 @@ def train(path):
                                 print('No model to load at {}'.format(save_dir))
                                 saver.save(sess, checkpoint_path, global_step=global_step)
 
-                except tf.errors.OutOfRangeError as e:
-                        print('Cannot restore checkpoint: {}'.format(e))
+                except:
+                        print('Cannot restore checkpoint: {})
 
 
         #if loaded == 0:
