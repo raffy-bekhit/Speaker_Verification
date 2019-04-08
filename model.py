@@ -53,7 +53,7 @@ def train(path):
     # training session
     with tf.Session() as sess:
 
-        if config.restore:
+        if True:
 				# Restore saved model if the user requested it, default = True
                 try:
                         checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
