@@ -54,7 +54,7 @@ def train(path):
     with tf.Session() as sess:
 
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir=os.path.join(path, "Check_Point"))
-        ckpt_list = ckpt.all_model_checkpoint_paths
+        ckpt_list = ckpt.model_checkpoint_path
         loaded = 0
         #for model in ckpt_list:
         #    if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
