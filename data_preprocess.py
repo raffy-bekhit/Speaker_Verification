@@ -137,9 +137,9 @@ def split_test_train_data():
         total_speaker_num = len(os.listdir(audio_path))
         train_speaker_num= (total_speaker_num//10)*9            # split total data 90% train and 10% test
 
-#if __name__ == "__main__":
+if __name__ == "__main__":
     #extract_noise()
     #if config.tdsv:
-    #    save_spectrogram_tdsv()
+    save_spectrogram_tisv(0)
     #else:
 #    save_spectrogram_tisv()
