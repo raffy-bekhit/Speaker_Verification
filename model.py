@@ -147,8 +147,9 @@ def test(path):
         #        loaded = 1
         #        saver.restore(sess, model)  # restore variables from selected ckpt file
         #        break
-        saver.restore(sess, ckpt)
         print("checkpoint_directory:::::: ",ckpt)
+        saver.restore(sess, ckpt)
+
         #if loaded == 0:
         #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
 
