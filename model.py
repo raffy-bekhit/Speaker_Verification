@@ -61,6 +61,7 @@ def train(path):
                         #if (checkpoint_state and checkpoint_state.model_checkpoint_path):
                                 #print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
                         saver.restore(sess, ckpt)
+                        print("check::::",ckpt)
 
                         #else:
                         #        print('No model to load at {}'.format(save_dir))
