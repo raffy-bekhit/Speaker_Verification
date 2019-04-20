@@ -56,7 +56,7 @@ def train(path):
         if True:
                 # Restore saved model if the user requested it, default = True
                 try:
-                        ckpt = tf.train.latest_checkpoint(path+"/Check_Point")
+                        ckpt = tf.train.latest_checkpoint("/content/tisv_model/Check_Point")
 
                         #if (checkpoint_state and checkpoint_state.model_checkpoint_path):
                                 #print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
