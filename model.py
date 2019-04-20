@@ -56,15 +56,15 @@ def train(path):
         if True:
                 # Restore saved model if the user requested it, default = True
                 try:
-                        checkpoint_state = tf.train.get_checkpoint_state(path+"/Check_Point")
+                        ckpt = tf.train.latest_checkpoint(path+"/Check_Point")
 
-                        if (checkpoint_state and checkpoint_state.model_checkpoint_path):
-                                print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
-                                saver.restore(sess, checkpoint_state.model_checkpoint_path)
+                        #if (checkpoint_state and checkpoint_state.model_checkpoint_path):
+                                #print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
+                        saver.restore(sess, ckpt)
 
-                        else:
-                                print('No model to load at {}'.format(save_dir))
-                                saver.save(sess, checkpoint_path, global_step=global_step)
+                        #else:
+                        #        print('No model to load at {}'.format(save_dir))
+                        #        saver.save(sess, checkpoint_path, global_step=global_step)
 
                 except:
                         print('Cannot restore checkpoint exception')
