@@ -139,7 +139,7 @@ def test(path):
         print("model path :", path)
         #ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path, "Check_Point"))
         print("dirrrrr:::::",path+"Check_Point")
-        ckpt = tf.train.latest_checkpoint(checkpoint_dir=path+"Check_Point")
+        ckpt = tf.train.latest_checkpoint(checkpoint_dir=path+"/Check_Point")
         #ckpt_list = ckpt.all_model_checkpoint_paths
         #loaded = 0
         #for model in ckpt_list:
