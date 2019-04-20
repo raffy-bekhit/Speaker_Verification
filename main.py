@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # start test
     else:
         print("\nTest session")
-        if os.path.isdir(config.model_path):
-            test(config.model_path)
-        else:
-            raise AssertionError("model path doesn't exist!")
+        #if os.path.isdir(config.model_path):
+        test(config.model_path)
+        #else:
+        #    raise AssertionError("model path doesn't exist!")
