@@ -53,7 +53,7 @@ def train(path):
     # training session
     with tf.Session() as sess:
 
-        if True:
+        if config.restore:
                 # Restore saved model if the user requested it, default = True
                 try:
                         checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
@@ -64,7 +64,9 @@ def train(path):
 
                         else:
                                 print('No model to load at {}'.format(save_dir))
+
                                 saver.save(sess, checkpoint_path, global_step=global_step)
+
 
                 except:
                         print('Cannot restore checkpoint exception')
