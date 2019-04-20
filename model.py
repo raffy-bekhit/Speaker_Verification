@@ -56,7 +56,7 @@ def train(path):
         if True:
                 # Restore saved model if the user requested it, default = True
                 try:
-                        checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
+                        checkpoint_state = tf.train.get_checkpoint_state(path+"/Check_Point")
 
                         if (checkpoint_state and checkpoint_state.model_checkpoint_path):
                                 print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
@@ -101,7 +101,7 @@ def train(path):
                 lr_factor /= 2                      # lr decay
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
             if (iter+1) % 2500 == 0:
-                saver.save(sess, os.path.join(path, "./Check_Point/model.ckpt"), global_step=iter)
+                saver.save(sess, os.path.join(path, "./Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 print("model is saved!")
 
 
