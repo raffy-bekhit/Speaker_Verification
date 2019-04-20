@@ -137,18 +137,19 @@ def test(path):
 
         # load model
         print("model path :", path)
-        ckpt = tf.train.get_checkpoint_state(checkpoint_dir=os.path.join(path, "Check_Point"))
-        ckpt_list = ckpt.all_model_checkpoint_paths
-        loaded = 0
-        for model in ckpt_list:
-            if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
-                print("ckpt file is loaded !", model)
-                loaded = 1
-                saver.restore(sess, model)  # restore variables from selected ckpt file
-                break
-
-        if loaded == 0:
-            raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
+        ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path, "Check_Point"))
+        #ckpt_list = ckpt.all_model_checkpoint_paths
+        #loaded = 0
+        #for model in ckpt_list:
+        #    if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
+        #        print("ckpt file is loaded !", model)
+        #        loaded = 1
+        #        saver.restore(sess, model)  # restore variables from selected ckpt file
+        #        break
+        saver.restore(sess, ckpt)
+        print("checkpoint_directory:::::: ",ckpt)
+        #if loaded == 0:
+        #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
 
         print("test file path : ", config.test_path)
 
