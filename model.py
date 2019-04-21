@@ -254,4 +254,6 @@ def output(path):
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
             e = sess.run(enroll_embed, feed_dict={enroll:random_batch(shuffle=False)})
+
+        print("embedding: " , e.shape)
         print("embedding: " , e)
