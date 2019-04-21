@@ -1,6 +1,6 @@
 import tensorflow as tf
 import os
-from model import train, test
+from model import train, test, output
 from configuration import get_config
 
 config = get_config()
@@ -17,6 +17,6 @@ if __name__ == "__main__":
     else:
         print("\nTest session")
         #if os.path.isdir(config.model_path):
-        test(config.model_path)
+        output(config.model_path)
         #else:
         #    raise AssertionError("model path doesn't exist!")
