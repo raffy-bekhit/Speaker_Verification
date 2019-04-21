@@ -255,4 +255,4 @@ def output(path):
         else:
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False),
                                                        verif:random_batch(shuffle=False, utter_start=config.M)})
-        print("embedding: "enroll_embed)
+        print("embedding: " , enroll_embed)
