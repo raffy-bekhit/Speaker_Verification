@@ -202,14 +202,14 @@ def output(path):
 
     # draw graph
     enroll = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
-    verif = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32)  # verification batch (time x batch x n_mel)
-    batch = tf.concat([enroll, verif], axis=1)
+    #verif = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32)  # verification batch (time x batch x n_mel)
+    #batch = tf.concat([enroll, verif], axis=1)
 
     # embedding lstm (3-layer default)
     with tf.variable_scope("lstm"):
         lstm_cells = [tf.contrib.rnn.LSTMCell(num_units=config.hidden, num_proj=config.proj) for i in range(config.num_layer)]
         lstm = tf.contrib.rnn.MultiRNNCell(lstm_cells)    # make lstm op and variables
-        outputs, _ = tf.nn.dynamic_rnn(cell=lstm, inputs=batch, dtype=tf.float32, time_major=True)   # for TI-VS must use dynamic rnn
+        outputs, _ = tf.nn.dynamic_rnn(cell=lstm, inputs=enroll, dtype=tf.float32, time_major=True)   # for TI-VS must use dynamic rnn
         embedded = outputs[-1]                            # the last ouput is the embedded d-vector
         embedded = normalize(embedded)                    # normalize
 
@@ -218,9 +218,9 @@ def output(path):
     # enrollment embedded vectors (speaker model)
     enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:config.N*config.M, :], shape= [config.N, config.M, -1]), axis=1))
     # verification embedded vectors
-    verif_embed = embedded[config.N*config.M:, :]
+    #verif_embed = embedded[config.N*config.M:, :]
 
-    similarity_matrix = similarity(embedded=verif_embed, w=1., b=0., center=enroll_embed)
+    #similarity_matrix = similarity(embedded=verif_embed, w=1., b=0., center=enroll_embed)
 
     saver = tf.train.Saver(var_list=tf.global_variables())
     with tf.Session() as sess:
@@ -253,6 +253,5 @@ def output(path):
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
-            S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False),
-                                                       verif:random_batch(shuffle=False, utter_start=config.M)})
-        print("embedding: " , enroll_embed)
+            e = sess.run(embedded, feed_dict={enroll:random_batch(shuffle=False)})
+        print("embedding: " , e)
