@@ -262,8 +262,8 @@ def output(model_path):
     np.save(embedding_file_name,e)
 
 
-    n = os.listdir(config.test_path)
-    speaker_dict = [None]*n
+    n = len(os.listdir(config.test_path))
+    speaker_dict = [None] * n
     for i, file in enumerate(config.test_path):
         speaker_dict[i] = file.strip([' ', '/'])
     dict_array = np.array(speaker_dict)
