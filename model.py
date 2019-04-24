@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import os
 import time
-from utils import random_batch, normalize, similarity, loss_cal, optim
+from utils import random_batch, normalize, similarity, loss_cal, optim, test_input
 from configuration import get_config
 from tensorflow.contrib import rnn
 
@@ -197,7 +197,7 @@ def test(path):
         print("\nEER : %0.2f (thres:%0.2f, FAR:%0.2f, FRR:%0.2f)"%(EER,EER_thres,EER_FAR,EER_FRR))
 
 
-def output(path):
+def output(model_path):
     tf.reset_default_graph()
 
     # draw graph
@@ -213,7 +213,7 @@ def output(path):
         embedded = outputs[-1]                            # the last ouput is the embedded d-vector
         embedded = normalize(embedded)                    # normalize
 
-    print("embedded size: ", embedded.shape)
+    #print("embedded size: ", embedded.shape)
 
     # enrollment embedded vectors (speaker model)
     enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:config.N*config.M, :], shape= [config.N, config.M, -1]), axis=1))
@@ -227,10 +227,10 @@ def output(path):
         tf.global_variables_initializer().run()
 
         # load model
-        print("model path :", path)
+        print("model path :", model_path)
         #ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path, "Check_Point"))
-        print("dirrrrrrrrrr:::",path)
-        ckpt = tf.train.latest_checkpoint(checkpoint_dir=path)
+
+        ckpt = tf.train.latest_checkpoint(checkpoint_dir=model_path)
         #ckpt_list = ckpt.all_model_checkpoint_paths
         #loaded = 0
         #for model in ckpt_list:
@@ -253,7 +253,18 @@ def output(path):
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
-            e = sess.run(enroll_embed, feed_dict={enroll:random_batch(shuffle=False)})
+            e = sess.run(enroll_embed, feed_dict={enroll:test_input()})
 
-        print("embedding: " , e.shape)
+        print("embedding shape: " , e.shape)
         print("embedding: " , e)
+
+    embedding_file_name = "speaker_embeddings"
+    np.save(embedding_file_name,e)
+
+
+    n = os.listdir(config.dataset_audio_path)
+    speaker_dict = ['']*n
+    for i, file in enumerate(config.test_path):
+        speaker_dict[i] = file.strip([' ', '/'])
+    dict_array = np.array(speaker_dict)
+    np.save("speakers_dictionary",dict_array)
