@@ -8,7 +8,7 @@ from utils import keyword_spot
 config = get_config()   # get arguments from parser
 
 # downloaded dataset path
-audio_path= './audio'                                          # utterance dataset
+#audio_path= './audio'                                          # utterance dataset
 clean_path = r'C:\Users\LG\Documents\Deep_learning\speaker_vertification\clean_testset_wav'  # clean dataset
 noisy_path = r'C:\Users\LG\Documents\Deep_learning\speaker_vertification\noisy_testset_wav'  # noisy dataset
 
@@ -59,8 +59,8 @@ def save_spectrogram_tdsv():
     os.makedirs(config.test_path, exist_ok=True)    # make folder to save test file
 
     utterances_spec = []
-    for folder in os.listdir(audio_path):
-        utter_path= os.path.join(audio_path, folder, os.listdir(os.path.join(audio_path, folder))[0])
+    for folder in os.listdir(config.dataset_audio_path):
+        utter_path= os.path.join(config.dataset_audio_path, folder, os.listdir(os.path.join(config.dataset_audio_path, folder))[0])
         if os.path.splitext(os.path.basename(utter_path))[0][-3:] != '001':  # if the text utterance doesn't exist pass
             print(os.path.basename(utter_path)[:4], "001 file doesn't exist")
             continue
@@ -98,12 +98,12 @@ def save_spectrogram_tisv(i):
     os.makedirs(config.test_path, exist_ok=True) ##   # make folder to save test file
 
     utter_min_len = (config.tisv_frame * config.hop + config.window) * config.sr    # lower bound of utterance length
-    total_speaker_num = len(os.listdir(audio_path))##
+    total_speaker_num = len(os.listdir(config.dataset_audio_path))##
     train_speaker_num= (total_speaker_num//10)*9 ##            # split total data 90% train and 10% test
     print("total speaker number : %d"%total_speaker_num)
     print("train : %d, test : %d"%(train_speaker_num, total_speaker_num-train_speaker_num))
-    for j, folder in enumerate(os.listdir(audio_path)):
-        speaker_path = os.path.join(audio_path, folder)     # path of each speaker
+    for j, folder in enumerate(os.listdir(config.dataset_audio_path)):
+        speaker_path = os.path.join(config.dataset_audio_path, folder)     # path of each speaker
         print("%dth speaker processing..."%i)
         utterances_spec = []
         k=0
@@ -126,7 +126,7 @@ def save_spectrogram_tisv(i):
         utterances_spec = np.array(utterances_spec)
         print(utterances_spec.shape)
         #if i<train_speaker_num:      # save spectrogram as numpy file
-        np.save(os.path.join("./speaker_verification_spectrograms", "speaker%d.npy"%i), utterances_spec)
+        np.save(os.path.join("./speaker_verification_spectrograms", "%d_"%i+folder.strip([' ','/'])+".npy"), utterances_spec)
         #else:
         #    np.save(os.path.join(config.test_path, "speaker%d.npy"%(i-train_speaker_num)), utterances_spec)
 
@@ -134,7 +134,7 @@ def split_test_train_data():
         print("start splitting data")
         os.makedirs(config.train_path, exist_ok=True)   # make folder to save train file
         os.makedirs(config.test_path, exist_ok=True)    # make folder to save test file
-        total_speaker_num = len(os.listdir(audio_path))
+        total_speaker_num = len(os.listdir(config.dataset_audio_path))
         train_speaker_num= (total_speaker_num//10)*9            # split total data 90% train and 10% test
 
 if __name__ == "__main__":
