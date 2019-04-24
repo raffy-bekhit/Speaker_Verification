@@ -253,7 +253,7 @@ def output(model_path):
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
-            e = sess.run(enroll_embed, feed_dict={enroll:random_batch(shuffle=False)})
+            e = sess.run(enroll_embed, feed_dict={enroll:test_input()})
 
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
