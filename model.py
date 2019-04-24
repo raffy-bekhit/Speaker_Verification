@@ -253,7 +253,7 @@ def output(model_path):
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
-            e = sess.run(enroll_embed, feed_dict={enroll:test_input()})
+            e = sess.run(enroll_embed, feed_dict={enroll:random_batch(shuffle=False)})
 
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
@@ -263,7 +263,7 @@ def output(model_path):
 
 
     n = os.listdir(config.test_path)
-    speaker_dict = ['']*n
+    speaker_dict = [None]*n
     for i, file in enumerate(config.test_path):
         speaker_dict[i] = file.strip([' ', '/'])
     dict_array = np.array(speaker_dict)
