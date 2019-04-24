@@ -24,6 +24,7 @@ data_arg = parser.add_argument_group('Data')
 data_arg.add_argument('--noise_path', type=str, default='./noise', help="noise dataset directory")
 data_arg.add_argument('--train_path', type=str, default='./train_tisv', help="train dataset directory")
 data_arg.add_argument('--test_path', type=str, default='./test_tisv', help="test dataset directory")
+#data_arg.add_argument('--operation_path', type=str, default='./operation_tisv', help="operation dataset directory")
 data_arg.add_argument('--tdsv', type=str2bool, default=False, help="text dependent or not")
 data_arg.add_argument('--sr', type=int, default=8000, help="sampling rate")
 data_arg.add_argument('--nfft', type=int, default=512, help="fft kernel size")
@@ -31,7 +32,8 @@ data_arg.add_argument('--window', type=int, default=0.025, help="window length (
 data_arg.add_argument('--hop', type=int, default=0.01, help="hop size (ms)")
 data_arg.add_argument('--tdsv_frame', type=int, default=80, help="frame number of utterance of tdsv")
 data_arg.add_argument('--tisv_frame', type=int, default=180, help="max frame number of utterances of tisv")
-
+data_arg.add_argument('--dataset_audio_path',type=str, default='./dataset', help="dataset audio directory")
+data_arg.add_argument('--speaker_id', type=int, default=0, help="speaker id for preprocessing")
 # Model Parameters
 model_arg = parser.add_argument_group('Model')
 model_arg.add_argument('--hidden', type=int, default=768, help="hidden state dimension of lstm")

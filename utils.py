@@ -17,6 +17,28 @@ def keyword_spot(spec):
     return spec[:, -config.tdsv_frame:]
 
 
+def test_input():
+    path = config.test_path
+    np_file_list = os.listdir(path)
+    total_speaker = len(np_file_list)
+
+    selected_files = np_file_list[0:]                # select first N speakers
+
+    utter_batch = []
+    for file in selected_files:
+        utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
+        utter_batch.append(utters[0:])
+
+    utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
+
+    utter_batch = utter_batch[:,:,:160]               # for train session, fixed length slicing of input batch
+
+    utter_batch = np.transpose(utter_batch, axes=(2,0,1))     # transpose [frames, batch, n_mels]
+
+    return utter_batch
+
+
+
 def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_filenum=None, utter_start=0):
     """ Generate 1 batch.
         For TD-SV, noise is added to each utterance.

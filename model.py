@@ -262,7 +262,7 @@ def output(model_path):
     np.save(embedding_file_name,e)
 
 
-    n = os.listdir(config.dataset_audio_path)
+    n = os.listdir(config.test_path)
     speaker_dict = ['']*n
     for i, file in enumerate(config.test_path):
         speaker_dict[i] = file.strip([' ', '/'])
