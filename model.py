@@ -264,9 +264,8 @@ def output(model_path):
 
     n = len(os.listdir(config.test_path))
     speaker_dict = [None] * n
-    print("over heree",len(speaker_dict))
+    
     for i, file in enumerate(os.listdir(config.test_path)):
         speaker_dict[i] = file.strip('/')
-        print(i)
     dict_array = np.array(speaker_dict)
     np.save("speakers_dictionary",dict_array)
