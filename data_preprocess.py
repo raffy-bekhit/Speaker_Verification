@@ -170,7 +170,7 @@ def save_spectrogram_tisv_for_each_wav():
             utterances_spec = np.array(utterances_spec)
             #print(utterances_spec.shape)
         #if i<train_speaker_num:      # save spectrogram as numpy file
-            np.save(os.path.join("../speaker_verification_spectrograms", folder.strip([' ','/'])+"_"+utter_name.strip([' ','/'])+".npy"), utterances_spec)
+            np.save(os.path.join("../speaker_verification_spectrograms", folder.strip('/')+"_"+utter_name.strip('/')+".npy"), utterances_spec)
             #k=k+1
         #else:
         #    np.save(os.path.join(config.test_path, "speaker%d.npy"%(i-train_speaker_num)), utterances_spec)
