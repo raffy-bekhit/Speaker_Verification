@@ -37,6 +37,7 @@ def test_input():
         else:
             corrupted.append(file)
             counter=counter+1
+            shutil.move(os.path.join(path, file),"../corrupted_spectrograms/"+file))
 
 
 
