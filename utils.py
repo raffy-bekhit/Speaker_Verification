@@ -43,7 +43,9 @@ def test_input():
 
 
 
+
     utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
+    print("shape: ",utter_batch.shape)
     print("corrupted: ", counter)
     for cor_name in corrupted:
         cor_file.write(cor_name+"\n")
