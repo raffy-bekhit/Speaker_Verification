@@ -22,19 +22,29 @@ def test_input():
     np_file_list = os.listdir(path)
     total_speaker = len(np_file_list)
 
-    selected_files = np_file_list[0:config.N]                # select first N speakers
+    selected_files = np_file_list[0:]                # select first N speakers
     print("files: "+str(selected_files))
     print(total_speaker)
     utter_batch = []
+    counter = 0
+    corrupted = []
+    cor_file = open("corrupted_filenames","w+")
     for file in selected_files:
         utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
         if utters.shape[0] != 0:
-            print(utters.shape)
+            #print(utters.shape)
             utter_batch.append(utters[0:config.M])
+        else:
+            corrupted.append(file)
+            counter=counter+1
+
 
 
     utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
-
+    print("corrupted: ", counter)
+    for cor_name in corrupted:
+        cor_file.write(cor_name)
+    cor_file.close()
     utter_batch = utter_batch[:,:,:160]               # for train session, fixed length slicing of input batch
 
     utter_batch = np.transpose(utter_batch, axes=(2,0,1))     # transpose [frames, batch, n_mels]
