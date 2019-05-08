@@ -28,7 +28,7 @@ def test_input():
     utter_batch = []
     for file in selected_files:
         utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
-        if utters.shape != [0]:
+        if utters.shape[0] != 0:
             print(utters.shape)
             utter_batch.append(utters[0:config.M])
 
