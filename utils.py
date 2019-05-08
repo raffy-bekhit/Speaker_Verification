@@ -36,7 +36,7 @@ def test_input():
             #print(utters.shape)
             utter_batch.append(utters[0:config.M])
             print(utters.shape)
-        else:
+#        else:
             #corrupted.append(file)
             #counter=counter+1
             #shutil.move(os.path.join(path, file),"../corrupted_spectrograms/"+file)
