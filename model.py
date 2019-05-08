@@ -5,6 +5,7 @@ import time
 from utils import random_batch, normalize, similarity, loss_cal, optim, test_input
 from configuration import get_config
 from tensorflow.contrib import rnn
+import shutil
 
 config = get_config()
 

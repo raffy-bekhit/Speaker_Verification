@@ -35,7 +35,7 @@ def test_input():
         if utters.shape[0] != 0:
             #print(utters.shape)
             utter_batch.append(utters[0:config.M])
-            
+
 #        else:
             #corrupted.append(file)
             #counter=counter+1
