@@ -28,7 +28,7 @@ def test_input():
     utter_batch = []
     counter = 0
     corrupted = []
-    cor_file = open("corrupted_filenames","w+")
+    cor_file = open("corrupted_filenames.txt","w+")
     for file in selected_files:
         utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
         if utters.shape[0] != 0:
