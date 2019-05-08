@@ -23,7 +23,7 @@ def test_input():
     np_file_list = os.listdir(path)
     total_speaker = len(np_file_list)
 
-    selected_files = np_file_list[0:]                # select first N speakers
+    selected_files = np_file_list[0:config.N]                # select first N speakers
     print("files: "+str(selected_files))
     print(total_speaker)
     utter_batch = []
