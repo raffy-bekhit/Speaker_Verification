@@ -24,6 +24,7 @@ def test_input():
 
     selected_files = np_file_list[0:]                # select first N speakers
     print("files: "+str(selected_files))
+    print(total_speaker)
     utter_batch = []
     for file in selected_files:
         utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
