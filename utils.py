@@ -23,11 +23,11 @@ def test_input():
     total_speaker = len(np_file_list)
 
     selected_files = np_file_list[0:]                # select first N speakers
-    #print("overrrr heeeere..jacckkkk",len(np_file_list))
+    print("files: "+selected_files)
     utter_batch = []
     for file in selected_files:
         utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
-        utter_batch.append(utters[0:config.M])
+        utter_batch.append(utters[0:])
 
 
     utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
@@ -92,7 +92,7 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
         if shuffle:
             selected_files = random.sample(np_file_list, speaker_num)  # select random N speakers
         else:
-            selected_files = np_file_list[0:]                # select first N speakers
+            selected_files = np_file_list[:speaker_num]                # select first N speakers
 
         utter_batch = []
         for file in selected_files:
