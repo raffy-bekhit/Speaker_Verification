@@ -258,14 +258,16 @@ def output(model_path):
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
 
-    embedding_file_name = "speaker_embeddings"
-    np.save(embedding_file_name,e)
+    embedding_file_path = "../speakers_embeddings/"
+    #np.save(embedding_file_name,e)
 
 
-    n = len(os.listdir(config.test_path))
-    speaker_dict = [None] * n
+    #n = len(os.listdir(config.test_path))
+    #speaker_dict = [None] * n
 
     for i, file in enumerate(os.listdir(config.test_path)):
-        speaker_dict[i] = file.strip('/')
-    dict_array = np.array(speaker_dict)
-    np.save("speakers_dictionary",dict_array)
+        #speaker_dict[i] = file.strip('/')
+        np.save(embedding_file_path+file,e[i])
+
+    #dict_array = np.array(speaker_dict)
+    #np.save("speakers_dictionary",dict_array)
