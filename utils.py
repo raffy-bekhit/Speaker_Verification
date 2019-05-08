@@ -33,7 +33,7 @@ def test_input():
 
     utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
 
-    utter_batch = utter_batch[:,:,:160]               # for train session, fixed length slicing of input batch
+    utter_batch = utter_batch[:,:,:10]               # for train session, fixed length slicing of input batch
 
     utter_batch = np.transpose(utter_batch, axes=(2,0,1))     # transpose [frames, batch, n_mels]
 
