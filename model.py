@@ -239,7 +239,7 @@ def output(model_path):
         #        loaded = 1
         #        saver.restore(sess, model)  # restore variables from selected ckpt file
         #        break
-        print("checkpoint_directory:::::: ",ckpt)
+        #print("checkpoint_directory:::::: ",ckpt)
         saver.restore(sess, ckpt)
 
         #if loaded == 0:
@@ -258,14 +258,15 @@ def output(model_path):
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
 
-    embedding_file_name = "speaker_embeddings"
-    np.save(embedding_file_name,e)
+    embedding_folder_name = "speaker_embeddings"
+    #np.save(embedding_file_name,e)
 
 
-    n = len(os.listdir(config.test_path))
-    speaker_dict = [None] * n
+    #n = len(os.listdir(config.test_path))
+    #speaker_dict = [None] * n
 
     for i, file in enumerate(os.listdir(config.test_path)):
-        speaker_dict[i] = file.strip('/')
-    dict_array = np.array(speaker_dict)
-    np.save("speakers_dictionary",dict_array)
+        #speaker_dict[i] = file.strip('/')
+        np.save("../"+embedding_folder_name+"/"+file,e[i])
+    #dict_array = np.array(speaker_dict)
+    #np.save("speakers_dictionary",dict_array)
