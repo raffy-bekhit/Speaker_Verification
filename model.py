@@ -5,6 +5,7 @@ import time
 from utils import random_batch, normalize, similarity, loss_cal, optim, test_input
 from configuration import get_config
 from tensorflow.contrib import rnn
+import shutil
 
 config = get_config()
 
@@ -258,7 +259,11 @@ def output(model_path):
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
 
+<<<<<<< HEAD
     embedding_folder_name = "speaker_embeddings"
+=======
+    embedding_file_path = "../speakers_embeddings/"
+>>>>>>> 54c1a24387f5ce280f52f2131d501befb2dc21fc
     #np.save(embedding_file_name,e)
 
 
@@ -267,6 +272,11 @@ def output(model_path):
 
     for i, file in enumerate(os.listdir(config.test_path)):
         #speaker_dict[i] = file.strip('/')
+<<<<<<< HEAD
         np.save("../"+embedding_folder_name+"/"+file,e[i])
+=======
+        np.save(embedding_file_path+file,e[i])
+
+>>>>>>> 54c1a24387f5ce280f52f2131d501befb2dc21fc
     #dict_array = np.array(speaker_dict)
     #np.save("speakers_dictionary",dict_array)

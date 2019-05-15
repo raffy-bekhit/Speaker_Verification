@@ -5,6 +5,7 @@ import librosa
 import matplotlib.pyplot as plt
 import random
 from configuration import get_config
+import shutil
 
 config = get_config()
 
@@ -23,15 +24,32 @@ def test_input():
     total_speaker = len(np_file_list)
 
     selected_files = np_file_list[0:]                # select first N speakers
-    #print("overrrr heeeere..jacckkkk",len(np_file_list))
+    print("files: "+str(selected_files))
+    print(total_speaker)
     utter_batch = []
+    counter = 0
+    corrupted = []
+    #cor_file = open("corrupted_filenames.txt","w+")
     for file in selected_files:
         utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
-        utter_batch.append(utters[0:config.M])
+        if utters.shape[0] != 0:
+            #print(utters.shape)
+            utter_batch.append(utters[0:config.M])
+
+#        else:
+            #corrupted.append(file)
+            #counter=counter+1
+            #shutil.move(os.path.join(path, file),"../corrupted_spectrograms/"+file)
+
+
 
 
     utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
-
+    print("shape: ",utter_batch.shape)
+    #print("corrupted: ", counter)
+    #for cor_name in corrupted:
+    #    cor_file.write(cor_name+"\n")
+    #cor_file.close()
     utter_batch = utter_batch[:,:,:160]               # for train session, fixed length slicing of input batch
 
     utter_batch = np.transpose(utter_batch, axes=(2,0,1))     # transpose [frames, batch, n_mels]
