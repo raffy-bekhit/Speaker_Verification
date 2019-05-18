@@ -49,7 +49,7 @@ def test_input():
     print("shape: ",utter_batch.shape)
     print("corrupted: ", counter)
 
-    if os.stat("corrupted_filenames.txt").st_size != 0:
+    if os.stat("corrupted_filenames.txt").st_size == 0:
         cor_file = open("corrupted_filenames.txt","w+")
         for cor_name in corrupted:
             cor_file.write(cor_name+"\n")
