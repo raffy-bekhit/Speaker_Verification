@@ -139,6 +139,56 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
 
     return utter_batch
 
+def get_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_filenum=None, utter_start=0):
+    """ Generate 1 batch.
+        For TD-SV, noise is added to each utterance.
+        For TI-SV, random frame length is applied to each batch of utterances (140-180 frames)
+        speaker_num : number of speaker of each batch
+        utter_num : number of utterance per speaker of each batch
+        shuffle : random sampling or not
+        noise_filenum : specify noise file or not (TD-SV)
+        utter_start : start point of slicing (TI-SV)
+    :return: 1 random numpy batch (frames x batch(NM) x n_mels)
+    """
+
+    # data path
+    if config.train:
+        path = config.train_path
+    else:
+        path = config.test_path
+
+    # TD-SV
+
+
+    np_file_list = os.listdir(path)
+    total_speaker = len(np_file_list)
+    if shuffle:
+        selected_files = random.sample(np_file_list, speaker_num)  # select random N speakers
+    else:
+        selected_files = np_file_list[:total_speaker]                # select first N speakers
+
+    utter_batch = []
+    for file in selected_files:
+        utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
+        if shuffle:
+                #utter_batch.append(random.sample(utters,utter_num))
+            utter_index = np.random.randint(0, utters.shape[0], utter_num)   # select M utterances per speaker
+            utter_batch.append(utters[utter_index])       # each speakers utterance [M, n_mels, frames] is appended
+        else:
+            utter_batch.append(utters[utter_start: utter_start+utter_num])
+
+        utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
+
+    if config.train:
+        frame_slice = np.random.randint(140,181)          # for train session, random slicing of input batch
+        utter_batch = utter_batch[:,:,:frame_slice]
+    else:
+        utter_batch = utter_batch[:,:,:160]               # for train session, fixed length slicing of input batch
+    utter_batch = np.transpose(utter_batch, axes=(2,0,1))     # transpose [frames, batch, n_mels]
+    return utter_batch
+
+
+
 
 def normalize(x):
     """ normalize the last dimension vector of the input matrix
