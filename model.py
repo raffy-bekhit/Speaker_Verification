@@ -14,7 +14,7 @@ def train(path):
     tf.reset_default_graph()    # reset graph
 
     # draw graph
-    batch = tf.placeholder(shape= [None, config.N*config.M, 40], dtype=tf.float32)  # input batch (time x batch x n_mel)
+    batch = tf.placeholder(shape= [None, config.N*config.M, 80], dtype=tf.float32)  # input batch (time x batch x n_mel)
     lr = tf.placeholder(dtype= tf.float32)  # learning rate
     global_step = tf.Variable(0, name='global_step', trainable=False)
     w = tf.get_variable("w", initializer= np.array([10], dtype=np.float32))
@@ -50,27 +50,27 @@ def train(path):
     loss_summary = tf.summary.scalar("loss", loss)
     merged = tf.summary.merge_all()
     saver = tf.train.Saver()
-
+    save_dir=os.path.join(path,"Check_Point")
     # training session
     with tf.Session() as sess:
 
         if config.restore:
                 # Restore saved model if the user requested it, default = True
-                try:
-                        checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
+            try:
+                checkpoint_state = tf.train.get_checkpoint_state(save_dir)
 
-                        if (checkpoint_state and checkpoint_state.model_checkpoint_path):
-                                print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
-                                saver.restore(sess, checkpoint_state.model_checkpoint_path)
+                if (checkpoint_state and checkpoint_state.model_checkpoint_path):
+                    print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
+                    saver.restore(sess, checkpoint_state.model_checkpoint_path)
 
-                        else:
-                                print('No model to load at {}'.format(save_dir))
+                else:
+                    print('No model to load at {}'.format(save_dir))
 
-                                saver.save(sess, checkpoint_path, global_step=global_step)
+                    #saver.save(sess, checkpoint_path, global_step=global_step)
 
 
-                except:
-                        print('Cannot restore checkpoint exception')
+            except:
+                print('Cannot restore checkpoint exception')
 
 
         #if loaded == 0:
@@ -113,8 +113,8 @@ def test(path):
     tf.reset_default_graph()
 
     # draw graph
-    enroll = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
-    verif = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32)  # verification batch (time x batch x n_mel)
+    enroll = tf.placeholder(shape=[None, config.N*config.M, 80], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
+    verif = tf.placeholder(shape=[None, config.N*config.M, 80], dtype=tf.float32)  # verification batch (time x batch x n_mel)
     batch = tf.concat([enroll, verif], axis=1)
 
     # embedding lstm (3-layer default)
@@ -202,8 +202,8 @@ def output(model_path):
     tf.reset_default_graph()
 
     # draw graph
-    enroll = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
-    #verif = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32)  # verification batch (time x batch x n_mel)
+    enroll = tf.placeholder(shape=[None, config.N*config.M, 80], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
+    #verif = tf.placeholder(shape=[None, config.N*config.M, 80], dtype=tf.float32)  # verification batch (time x batch x n_mel)
     #batch = tf.concat([enroll, verif], axis=1)
 
     # embedding lstm (3-layer default)
