@@ -124,6 +124,7 @@ def save_spectrogram_tisv(i):
                     utterances_spec.append(S[:, -config.tisv_frame:])   # last 180 frames of partial utterance
 
         utterances_spec = np.array(utterances_spec)
+        i=i+1
         print(utterances_spec.shape)
         #if i<train_speaker_num:      # save spectrogram as numpy file
         np.save(os.path.join("../speaker_verification_spectrograms", folder.strip('/')+".npy"), utterances_spec)
