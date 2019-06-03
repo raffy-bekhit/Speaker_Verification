@@ -18,7 +18,7 @@ def keyword_spot(spec):
     return spec[:, -config.tdsv_frame:]
 
 
-def test_input():
+def factory_input():
     path = config.test_path
     np_file_list = os.listdir(path)
     total_speaker = len(np_file_list)

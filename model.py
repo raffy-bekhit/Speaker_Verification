@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import os
 import time
-from utils import random_batch, normalize, similarity, loss_cal, optim, test_input
+from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input
 from configuration import get_config
 from tensorflow.contrib import rnn
 import shutil
@@ -56,21 +56,21 @@ def train(path):
 
         if config.restore:
                 # Restore saved model if the user requested it, default = True
-                try:
-                        checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
+            try:
+                    checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
 
-                        if (checkpoint_state and checkpoint_state.model_checkpoint_path):
-                                print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
-                                saver.restore(sess, checkpoint_state.model_checkpoint_path)
+                    if (checkpoint_state and checkpoint_state.model_checkpoint_path):
+                            print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
+                            saver.restore(sess, checkpoint_state.model_checkpoint_path)
 
-                        else:
-                                print('No model to load at {}'.format(save_dir))
+                    else:
+                            print('No model to load at {}'.format(save_dir))
 
-                                saver.save(sess, checkpoint_path, global_step=global_step)
+                            saver.save(sess, checkpoint_path, global_step=global_step)
 
 
-                except:
-                        print('Cannot restore checkpoint exception')
+            except:
+                    print('Cannot restore checkpoint exception')
 
 
         #if loaded == 0:
@@ -254,7 +254,7 @@ def output(model_path):
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
-            e = sess.run(enroll_embed, feed_dict={enroll:test_input()})
+            e = sess.run(enroll_embed, feed_dict={enroll:factory_input()})
 
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
