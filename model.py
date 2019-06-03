@@ -81,8 +81,10 @@ def train(path):
 
 
         tf.global_variables_initializer().run()
-        os.makedirs(os.path.join(path, "Check_Point"), exist_ok=True)  # make folder to save model
-        os.makedirs(os.path.join(path, "logs"), exist_ok=True)          # make folder to save log
+
+        if config.restore:
+            os.makedirs(os.path.join(path, "Check_Point"), exist_ok=True)  # make folder to save model
+            os.makedirs(os.path.join(path, "logs"), exist_ok=True)          # make folder to save log
         writer = tf.summary.FileWriter(os.path.join(path, "logs"), sess.graph)
         epoch = 0
         lr_factor = 1   # lr decay factor ( 1/2 per 10000 iteration)
@@ -104,7 +106,7 @@ def train(path):
                 lr_factor /= 2                      # lr decay
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
             if (iter+1) % 2500 == 0:
-                saver.save(sess, os.path.join(path, "./Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
+                saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 print("model is saved!")
 
 
