@@ -82,7 +82,7 @@ def train(path):
 
         tf.global_variables_initializer().run()
 
-        if config.restore:
+        if !config.restore:
             os.makedirs(os.path.join(path, "Check_Point"), exist_ok=True)  # make folder to save model
             os.makedirs(os.path.join(path, "logs"), exist_ok=True)          # make folder to save log
         writer = tf.summary.FileWriter(os.path.join(path, "logs"), sess.graph)
