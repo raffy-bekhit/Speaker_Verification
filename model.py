@@ -64,7 +64,7 @@ def train(path):
 #                    print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
             #saver = tf.train.import_meta_graph(os.path.join(path,"Check_Point/model.cpkt.meta"))
 
-            ckpt = tf.train.load_checkpoint(os.path.join(path,"Check_Point/model.ckpt"))
+            ckpt = tf.train.load_checkpoint(os.path.join(path,"Check_Point"))
             saver.restore(sess, ckpt)
 
 #                else:
