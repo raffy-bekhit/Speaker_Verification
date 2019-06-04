@@ -69,7 +69,7 @@ def train(path):
 
             #ckpt = tf.train.load_checkpoint(os.path.join(path,"Check_Point/model"))
                 saver.restore(sess, ckpt)
-                iter = config.step
+                
 
 #                else:
 #                    print('No model to load at {}'.format(save_dir))
@@ -90,7 +90,7 @@ def train(path):
 
 
         else:
-            iter = 0
+
             os.makedirs(os.path.join(path, "Check_Point"), exist_ok=True)  # make folder to save model
             os.makedirs(os.path.join(path, "logs"), exist_ok=True)          # make folder to save log
 
@@ -98,12 +98,13 @@ def train(path):
         epoch = 0
         lr_factor = 1   # lr decay factor ( 1/2 per 10000 iteration)
         loss_acc = 0    # accumulated loss ( for running average of loss)
+        iter = 0
 
 
         #        while iter  < config.iteration :
         while iter < config.iteration:
             # run forward and backward propagation and update parameters
-            _, loss_cur, summary = sess.run([train_op, loss, merged],
+            iter, loss_cur, summary = sess.run([train_op, loss, merged],
                                   feed_dict={batch: random_batch(), lr: config.lr*lr_factor})
 
             loss_acc += loss_cur    # accumulated loss for each 100 iteration
@@ -121,7 +122,7 @@ def train(path):
                 shutil.copytree(path,os.path.join("../../gdrive/My\ Drive/", "speaker_vertification_model_vox_"+str(iter+1)))
                 print("model is saved!")
 
-            iter = iter + 1
+
 
 
 # Test Session
