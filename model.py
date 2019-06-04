@@ -100,7 +100,8 @@ def train(path):
         loss_acc = 0    # accumulated loss ( for running average of loss)
 
 
-        while iter  < config.iteration :
+        #        while iter  < config.iteration :
+        while True:
             # run forward and backward propagation and update parameters
             _, loss_cur, summary = sess.run([train_op, loss, merged],
                                   feed_dict={batch: random_batch(), lr: config.lr*lr_factor})
@@ -120,7 +121,7 @@ def train(path):
                 shutil.copytree(path,os.path.join("../../gdrive/My\ Drive/", "speaker_vertification_model_vox_"+str(iter+1)))
                 print("model is saved!")
 
-            iter = iter +1
+            iter = iter + 1
 
 
 # Test Session
