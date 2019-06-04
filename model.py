@@ -50,11 +50,12 @@ def train(path):
     loss_summary = tf.summary.scalar("loss", loss)
     merged = tf.summary.merge_all()
     saver = tf.train.Saver()
-    sess.run(tf.global_variables_initializer())
+
 
 
     # training session
     with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
 
         if config.restore:
             print("heeeeeeeeere: true")
