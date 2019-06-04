@@ -50,6 +50,7 @@ def train(path):
     loss_summary = tf.summary.scalar("loss", loss)
     merged = tf.summary.merge_all()
     saver = tf.train.Saver()
+    iter = 0
 
 
 
@@ -69,7 +70,7 @@ def train(path):
 
             #ckpt = tf.train.load_checkpoint(os.path.join(path,"Check_Point/model"))
                 saver.restore(sess, ckpt)
-                
+
 
 #                else:
 #                    print('No model to load at {}'.format(save_dir))
@@ -98,7 +99,7 @@ def train(path):
         epoch = 0
         lr_factor = 1   # lr decay factor ( 1/2 per 10000 iteration)
         loss_acc = 0    # accumulated loss ( for running average of loss)
-        iter = 0
+
 
 
         #        while iter  < config.iteration :
