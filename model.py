@@ -50,6 +50,8 @@ def train(path):
     loss_summary = tf.summary.scalar("loss", loss)
     merged = tf.summary.merge_all()
     saver = tf.train.Saver()
+    tf.global_variables_initializer().run()
+
 
     # training session
     with tf.Session() as sess:
@@ -84,7 +86,6 @@ def train(path):
 
 
 
-        tf.global_variables_initializer().run()
 
         if not config.restore:
             os.makedirs(os.path.join(path, "Check_Point"), exist_ok=True)  # make folder to save model
