@@ -58,17 +58,18 @@ def train(path):
         sess.run(tf.global_variables_initializer())
 
         if config.restore:
-            print("heeeeeeeeere: true")
+
                 # Restore saved model if the user requested it, default = True
-#            try:
-#                checkpoint_state = tf.train.get_checkpoint_state(os.path.join(path,"Check_Point"))
+            try:
+                ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path,"Check_Point"))
 
 #                if (checkpoint_state and checkpoint_state.model_checkpoint_path):
 #                    print('Loading checkpoint {}'.format(checkpoint_state.model_checkpoint_path))
             #saver = tf.train.import_meta_graph(os.path.join(path,"Check_Point/model.cpkt.meta"))
 
             #ckpt = tf.train.load_checkpoint(os.path.join(path,"Check_Point/model"))
-            saver.restore(sess, os.path.join(path,"Check_Point/model.ckpt-14999"))
+                saver.restore(sess, ckpt)
+                iter = tf.train.get_global_step()
 
 #                else:
 #                    print('No model to load at {}'.format(save_dir))
@@ -76,8 +77,8 @@ def train(path):
 #                    saver.save(sess, checkpoint_path, global_step=global_step)
 
 
-#            except:
-#                print('Cannot restore checkpoint exception')
+            except:
+                print('Cannot restore checkpoint exception')
 
 
         #if loaded == 0:
@@ -88,7 +89,8 @@ def train(path):
 
 
 
-        if not config.restore:
+        else:
+            iter = 0
             os.makedirs(os.path.join(path, "Check_Point"), exist_ok=True)  # make folder to save model
             os.makedirs(os.path.join(path, "logs"), exist_ok=True)          # make folder to save log
 
@@ -97,7 +99,8 @@ def train(path):
         lr_factor = 1   # lr decay factor ( 1/2 per 10000 iteration)
         loss_acc = 0    # accumulated loss ( for running average of loss)
 
-        for iter in range(config.iteration):
+
+        while iter  < config.iteration :
             # run forward and backward propagation and update parameters
             _, loss_cur, summary = sess.run([train_op, loss, merged],
                                   feed_dict={batch: random_batch(), lr: config.lr*lr_factor})
@@ -116,6 +119,8 @@ def train(path):
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 shutil.copytree(path,os.path.join("../../gdrive/My\ Drive/", "speaker_vertification_model_vox_"+str(iter+1)))
                 print("model is saved!")
+
+            iter = iter +1
 
 
 # Test Session
