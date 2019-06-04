@@ -69,7 +69,7 @@ def train(path):
 
             #ckpt = tf.train.load_checkpoint(os.path.join(path,"Check_Point/model"))
                 saver.restore(sess, ckpt)
-                iter = tf.train.get_global_step()
+                iter = config.step
 
 #                else:
 #                    print('No model to load at {}'.format(save_dir))
@@ -101,7 +101,7 @@ def train(path):
 
 
         #        while iter  < config.iteration :
-        while True:
+        while iter < config.iteration:
             # run forward and backward propagation and update parameters
             _, loss_cur, summary = sess.run([train_op, loss, merged],
                                   feed_dict={batch: random_batch(), lr: config.lr*lr_factor})

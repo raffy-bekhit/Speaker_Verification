@@ -47,6 +47,7 @@ model_arg.add_argument('--model_num', type=int, default=6, help="number of ckpt 
 train_arg = parser.add_argument_group('Training')
 train_arg.add_argument('--train', type=str2bool, default=True, help="train session or not(test session)")
 train_arg.add_argument('--test', type=str2bool, default=False, help="test session or output")
+train_arg.add_argument('--step', type=int, default=0, help="")
 
 train_arg.add_argument('--N', type=int, default=4, help="number of speakers of batch")
 train_arg.add_argument('--M', type=int, default=5, help="number of utterances per speaker")
