@@ -99,6 +99,7 @@ def train(path):
         epoch = 0
         lr_factor = 1   # lr decay factor ( 1/2 per 10000 iteration)
         loss_acc = 0    # accumulated loss ( for running average of loss)
+        iter=0
 
 
 
