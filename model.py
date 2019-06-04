@@ -65,7 +65,7 @@ def train(path):
             #saver = tf.train.import_meta_graph(os.path.join(path,"Check_Point/model.cpkt.meta"))
 
             #ckpt = tf.train.load_checkpoint(os.path.join(path,"Check_Point/model"))
-            saver.restore(sess, os.path.join(path,"Check_Point/model1.ckpt"))
+            saver.restore(sess, os.path.join(path,"Check_Point/model.ckpt-14999"))
 
 #                else:
 #                    print('No model to load at {}'.format(save_dir))
