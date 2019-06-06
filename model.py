@@ -105,6 +105,7 @@ def train(path):
 
         #        while iter  < config.iteration :
         while iter < config.iteration:
+            print("lr: ", lr)
             # run forward and backward propagation and update parameters
             iter, _ ,loss_cur, summary = sess.run([global_step,train_op, loss, merged],
                                   feed_dict={batch: random_batch(), lr: config.lr*lr_factor})
