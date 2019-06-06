@@ -105,7 +105,7 @@ def train(path):
 
         #        while iter  < config.iteration :
         while iter < config.iteration:
-            print("lr: ", lr)
+            print("lr: ", lr_factor)
             # run forward and backward propagation and update parameters
             iter, _ ,loss_cur, summary = sess.run([global_step,train_op, loss, merged],
                                   feed_dict={batch: random_batch(), lr: config.lr*lr_factor})
@@ -117,7 +117,7 @@ def train(path):
             if (iter+1) % 100 == 0:
                 print("(iter : %d) loss: %.4f" % ((iter+1),loss_acc/100))
                 loss_acc = 0                        # reset accumulated loss
-            if (iter+1) % 10000 == 0:
+            if (iter+1) % 30000 == 0:
                 lr_factor /= 2                      # lr decay
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
             if (iter+1) % 1000 == 0:
