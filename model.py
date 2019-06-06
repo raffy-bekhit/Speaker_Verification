@@ -125,7 +125,7 @@ def train(path):
                 print("(iter : %d) loss: %.4f" % ((iter+1),loss_acc/100))
                 loss_acc = 0                        # reset accumulated loss
 
-            if epoch % 10 == 0:
+            if (10*(config.N * (iter+1))) % training_data_size == 0:
                                      # lr decay
 
                 print("epoch: ", epoch)
