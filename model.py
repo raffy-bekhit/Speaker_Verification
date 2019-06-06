@@ -103,11 +103,14 @@ def train(path):
         iter=0
         training_data_size = len(os.listdir(config.train_path))
         print("train_size: " , training_data_size)
+        prev_iter = -1
+
 
 
 
         #        while iter  < config.iteration :
         while iter < config.iteration:
+            prev_iter = iter
 
             # run forward and backward propagation and update parameters
             iter, _ ,loss_cur, summary = sess.run([global_step,train_op, loss, merged],
@@ -116,8 +119,10 @@ def train(path):
             loss_acc += loss_cur    # accumulated loss for each 100 iteration
 
 
-            epoch = config.N * (iter+1) // training_data_size
-            lr_factor = lr_factor / (2**(epoch//100))
+            if(iter - prev_iter > 1):
+                epoch = config.N * (iter+1) // training_data_size
+                lr_factor = lr_factor / (2**(epoch//100))
+
 
             if iter % 10 == 0:
                 writer.add_summary(summary, iter)   # write at tensorboard
@@ -125,16 +130,21 @@ def train(path):
                 print("(iter : %d) loss: %.4f" % ((iter+1),loss_acc/100))
                 loss_acc = 0                        # reset accumulated loss
 
-            if (100*(config.N * (iter+1))) % training_data_size == 0:
-                                     # lr decay
-
+            if config.N * (iter+1) % training_data_size == 0:
+                epoch = epoch + 1
                 print("epoch: ", epoch)
+
+            if epoch % 100 == 0:
+                lr_factor = lr_factor / 2             
                 print("learning factor: " , lr_factor)
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
+
             if (iter+1) % 5000 == 0:
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 #shutil.copytree(path,os.path.join("../../gdrive/My\ Drive/", "speaker_vertification_model_vox_"+str(iter+1)))
                 print("model is saved!")
+
+
 
 
 
