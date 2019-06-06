@@ -117,7 +117,7 @@ def train(path):
 
 
             epoch = config.N * (iter+1) // training_data_size
-            lr_factor = lr_factor / (2**(epoch//10))
+            lr_factor = lr_factor / (2**(epoch//100))
 
             if iter % 10 == 0:
                 writer.add_summary(summary, iter)   # write at tensorboard
@@ -125,7 +125,7 @@ def train(path):
                 print("(iter : %d) loss: %.4f" % ((iter+1),loss_acc/100))
                 loss_acc = 0                        # reset accumulated loss
 
-            if (10*(config.N * (iter+1))) % training_data_size == 0:
+            if (100*(config.N * (iter+1))) % training_data_size == 0:
                                      # lr decay
 
                 print("epoch: ", epoch)
