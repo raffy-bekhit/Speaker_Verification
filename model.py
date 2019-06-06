@@ -102,6 +102,7 @@ def train(path):
         loss_acc = 0    # accumulated loss ( for running average of loss)
         iter=0
         training_data_size = len(os.listdir(config.train_path))
+        print("train_size: " , training_data_size)
 
 
 
@@ -126,6 +127,9 @@ def train(path):
 
             if epoch % 10 == 0:
                                      # lr decay
+
+                print("epoch: ", epoch)
+                print("learning factor: " , lr_factor)
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
             if (iter+1) % 1000 == 0:
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
