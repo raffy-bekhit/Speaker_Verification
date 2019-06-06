@@ -134,8 +134,8 @@ def train(path):
                 epoch = epoch + 1
                 print("epoch: ", epoch)
 
-            if epoch % 100 == 0:
-                lr_factor = lr_factor / 2             
+            if ((config.N * (iter+1)) / training_data_size)%100  == 0:
+                lr_factor = lr_factor / 2
                 print("learning factor: " , lr_factor)
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
 
