@@ -122,6 +122,9 @@ def train(path):
             if(iter - prev_iter > 1):
                 epoch = config.N * (iter+1) // training_data_size
                 lr_factor = lr_factor / (2**(epoch//100))
+                print("restored epoch:", epoch)
+                print("restored learning rate:" lr_factor*config.lr)
+
 
 
             if iter % 10 == 0:
