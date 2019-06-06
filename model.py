@@ -105,23 +105,23 @@ def train(path):
 
         #        while iter  < config.iteration :
         while iter < config.iteration:
-            print("lr factor: ", lr_factor)
-            print("lr: ", config.lr)
+
             # run forward and backward propagation and update parameters
             iter, _ ,loss_cur, summary = sess.run([global_step,train_op, loss, merged],
                                   feed_dict={batch: random_batch(), lr: config.lr*lr_factor})
 
             loss_acc += loss_cur    # accumulated loss for each 100 iteration
+            lr_factor = lr_factor / (2**((iter+1)//25000))
 
             if iter % 10 == 0:
                 writer.add_summary(summary, iter)   # write at tensorboard
             if (iter+1) % 100 == 0:
                 print("(iter : %d) loss: %.4f" % ((iter+1),loss_acc/100))
                 loss_acc = 0                        # reset accumulated loss
-            if (iter+1) % 30000 == 0:
-                lr_factor /= 2                      # lr decay
+            if (iter+1) % 25000 == 0:
+                                     # lr decay
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
-            if (iter+1) % 2500 == 0:
+            if (iter+1) % 1000 == 0:
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 #shutil.copytree(path,os.path.join("../../gdrive/My\ Drive/", "speaker_vertification_model_vox_"+str(iter+1)))
                 print("model is saved!")
