@@ -123,7 +123,7 @@ def train(path):
                 epoch = config.N * (iter+1) // training_data_size
                 lr_factor = lr_factor / (2**(epoch//100))
                 print("restored epoch:", epoch)
-                print("restored learning rate:" lr_factor*config.lr)
+                print("restored learning rate:", lr_factor*config.lr)
 
 
 
