@@ -120,7 +120,7 @@ def train(path):
             if (iter+1) % 30000 == 0:
                 lr_factor /= 2                      # lr decay
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
-            if (iter+1) % 1000 == 0:
+            if (iter+1) % 2500 == 0:
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 #shutil.copytree(path,os.path.join("../../gdrive/My\ Drive/", "speaker_vertification_model_vox_"+str(iter+1)))
                 print("model is saved!")
