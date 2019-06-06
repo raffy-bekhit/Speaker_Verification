@@ -13,6 +13,7 @@ config = get_config()
 def train(path):
     tf.reset_default_graph()    # reset graph
 
+
     # draw graph
     batch = tf.placeholder(shape= [None, config.N*config.M, 40], dtype=tf.float32)  # input batch (time x batch x n_mel)
     lr = tf.placeholder(dtype= tf.float32)  # learning rate
@@ -100,6 +101,7 @@ def train(path):
         lr_factor = 1   # lr decay factor ( 1/2 per 10000 iteration)
         loss_acc = 0    # accumulated loss ( for running average of loss)
         iter=0
+        training_data_size = len(os.listdir(config.train_path))
 
 
 
@@ -111,14 +113,18 @@ def train(path):
                                   feed_dict={batch: random_batch(), lr: config.lr*lr_factor})
 
             loss_acc += loss_cur    # accumulated loss for each 100 iteration
-            lr_factor = lr_factor / (2**((iter+1)//25000))
+
+
+            epoch = config.N * (iter+1) // training_data_size
+            lr_factor = lr_factor / (2**(epoch//10))
 
             if iter % 10 == 0:
                 writer.add_summary(summary, iter)   # write at tensorboard
             if (iter+1) % 100 == 0:
                 print("(iter : %d) loss: %.4f" % ((iter+1),loss_acc/100))
                 loss_acc = 0                        # reset accumulated loss
-            if (iter+1) % 25000 == 0:
+
+            if epoch % 10 == 0:
                                      # lr decay
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
             if (iter+1) % 1000 == 0:
