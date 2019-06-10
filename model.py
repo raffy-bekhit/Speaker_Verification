@@ -127,7 +127,7 @@ def train(path):
 
 
 
-            if iter % 10 == 0:
+            if iter % 1000 == 0:
                 writer.add_summary(summary, iter)   # write at tensorboard
             if (iter+1) % 100 == 0:
                 print("(iter : %d) loss: %.4f" % ((iter+1),loss_acc/100))
