@@ -252,9 +252,10 @@ def test(path):
 
 def output(model_path):
     tf.reset_default_graph()
+    N = len(os.list_dir(test_path))
 
     # draw graph
-    enroll = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
+    enroll = tf.placeholder(shape=[None, N*config.M, 40], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
     #verif = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32)  # verification batch (time x batch x n_mel)
     #batch = tf.concat([enroll, verif], axis=1)
 
@@ -269,7 +270,7 @@ def output(model_path):
     #print("embedded size: ", embedded.shape)
 
     # enrollment embedded vectors (speaker model)
-    enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:config.N*config.M, :], shape= [config.N, config.M, -1]), axis=1))
+    enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:N*config.M, :], shape= [N, config.M, -1]), axis=1))
     # verification embedded vectors
     #verif_embed = embedded[config.N*config.M:, :]
 
