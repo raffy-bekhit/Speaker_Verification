@@ -150,8 +150,9 @@ def train(path):
                 tsne_plot( os.listdir(config.test_path) , output(config.model_path))
 
 
+                os.mkdir(os.path.join(config.gdrive_path, "speaker_vertification_model_vox_"+str(iter+1)))
+                shutil.copytree(path,os.path.join(config.gdrive_path, "speaker_vertification_model_vox_"+str(iter+1)))
 
-                #shutil.copytree(path,os.path.join("../../gdrive/My\ Drive/", "speaker_vertification_model_vox_"+str(iter+1)))
                 print("model is saved!")
 
 
