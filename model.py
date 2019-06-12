@@ -136,7 +136,7 @@ def train(path):
             if config.N * (iter+1) % training_data_size == 0:
                 epoch = epoch + 1
                 print("epoch: ", epoch)
-                e =  sess.run(embedded, feed_dict={enroll:factory_input()})
+                e =  sess.run(embedded, feed_dict={batch:factory_input()})
                 tsne_plot( os.listdir(config.test_path) , e )
 
 
