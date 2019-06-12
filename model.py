@@ -257,7 +257,7 @@ def output(model_path, inside=False):
     if not inside:
         tf.reset_default_graph()
 
-    N = len(os.listdir(comfig.test_path))
+    N = len(os.listdir(config.test_path))
 
     # draw graph
     enroll = tf.placeholder(shape=[None, N*config.M, 40], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
