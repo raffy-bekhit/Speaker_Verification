@@ -136,7 +136,9 @@ def train(path):
             if config.N * (iter+1) % training_data_size == 0:
                 epoch = epoch + 1
                 print("epoch: ", epoch)
-                tsne_plot(["1","2","3","4"],test_embeddings)
+                tsne_plot( os.listdir(config.test_path) , output(config.model_path))
+
+
 
             if ((config.N * (iter+1)) / training_data_size)%100  == 0:
                 lr_factor = lr_factor / 2
@@ -146,8 +148,6 @@ def train(path):
             if (iter+1) % 5000 == 0:
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 writer.add_summary(summary, iter)   # write at tensorboard
-
-                tsne_plot( os.listdir(config.test_path) , output(config.model_path))
 
 
                 os.mkdir(os.path.join(config.gdrive_path, "speaker_vertification_model_vox_"+str(iter+1)))
