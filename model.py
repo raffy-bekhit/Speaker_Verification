@@ -279,7 +279,7 @@ def output(model_path):
 
     saver = tf.train.Saver(var_list=tf.global_variables())
     with tf.Session() as sess:
-        tf.global_variables_initializer().run()
+        #tf.global_variables_initializer().run()
 
         # load model
         print("model path :", model_path)
