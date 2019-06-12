@@ -148,12 +148,15 @@ def train(path):
             if (iter+1) % 5000 == 0:
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 writer.add_summary(summary, iter)   # write at tensorboard
+                print("model is saved!")
 
-
+            if (iter+1) % 10000 == 0:
                 os.mkdir(os.path.join(config.gdrive_path, "speaker_vertification_model_vox_"+str(iter+1)))
+                shutil.rmtree(os.path.join(config.gdrive_path, "speaker_vertification_model_vox_"+str(iter-10000+1)))
+
                 shutil.copytree(path,os.path.join(config.gdrive_path, "speaker_vertification_model_vox_"+str(iter+1)))
 
-                print("model is saved!")
+
 
 
 
