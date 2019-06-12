@@ -136,7 +136,8 @@ def train(path):
             if config.N * (iter+1) % training_data_size == 0:
                 epoch = epoch + 1
                 print("epoch: ", epoch)
-                tsne_plot( os.listdir(config.test_path) , output(config.model_path))
+                e =  sess.run(embedded, feed_dict={enroll:factory_input()})
+                tsne_plot( os.listdir(config.test_path) , e )
 
 
 
@@ -279,12 +280,13 @@ def output(model_path):
 
     saver = tf.train.Saver(var_list=tf.global_variables())
     with tf.Session() as sess:
-        #tf.global_variables_initializer().run()
+
+
+        tf.global_variables_initializer().run()
 
         # load model
         print("model path :", model_path)
         #ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path, "Check_Point"))
-
         ckpt = tf.train.latest_checkpoint(checkpoint_dir=model_path)
         #ckpt_list = ckpt.all_model_checkpoint_paths
         #loaded = 0
