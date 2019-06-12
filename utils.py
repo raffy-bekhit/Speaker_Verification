@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import random
 from configuration import get_config
 import shutil
-from sklearn import tsne
+from sklearn.manifold import TSNE
 
 config = get_config()
 
