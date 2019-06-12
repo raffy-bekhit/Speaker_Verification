@@ -136,8 +136,7 @@ def train(path):
             if config.N * (iter+1) % training_data_size == 0:
                 epoch = epoch + 1
                 print("epoch: ", epoch)
-                e = output(config.model_path,True)
-                tsne_plot( os.listdir(config.test_path) , e )
+
 
 
 
@@ -252,10 +251,10 @@ def test(path):
         print("\nEER : %0.2f (thres:%0.2f, FAR:%0.2f, FRR:%0.2f)"%(EER,EER_thres,EER_FAR,EER_FRR))
 
 
-def output(model_path, inside=False):
+def output(model_path):
 
-    if not inside:
-        tf.reset_default_graph()
+
+    tf.reset_default_graph()
 
     N = len(os.listdir(config.test_path))
 
@@ -324,6 +323,7 @@ def output(model_path, inside=False):
 
     #n = len(os.listdir(config.test_path))
     #speaker_dict = [None] * n
+    tsne_plot( os.listdir(config.test_path) , e )
     return e
 
 

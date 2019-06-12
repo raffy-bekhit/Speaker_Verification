@@ -20,6 +20,6 @@ if __name__ == "__main__":
             test(config.model_path)
         #if os.path.isdir(config.model_path):
         else:
-            write_output_in_files(config.model_path)
+            output(config.model_path)
         #else:
         #    raise AssertionError("model path doesn't exist!")
