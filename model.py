@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import os
 import time
-from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input
+from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input, tsne_plot
 from configuration import get_config
 from tensorflow.contrib import rnn
 import shutil
@@ -136,6 +136,7 @@ def train(path):
             if config.N * (iter+1) % training_data_size == 0:
                 epoch = epoch + 1
                 print("epoch: ", epoch)
+                tsne_plot(["1","2","3","4"],test_embeddings)
 
             if ((config.N * (iter+1)) / training_data_size)%100  == 0:
                 lr_factor = lr_factor / 2
@@ -145,9 +146,14 @@ def train(path):
             if (iter+1) % 5000 == 0:
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
                 writer.add_summary(summary, iter)   # write at tensorboard
+
+                tsne_plot( os.listdir(config.test_path) , output(config.model_path))
+
+
+
                 #shutil.copytree(path,os.path.join("../../gdrive/My\ Drive/", "speaker_vertification_model_vox_"+str(iter+1)))
                 print("model is saved!")
-                
+
 
 
 
@@ -305,18 +311,21 @@ def output(model_path):
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
 
-    embedding_folder_name = "speaker_embeddings"
 
     #np.save(embedding_file_name,e)
 
 
     #n = len(os.listdir(config.test_path))
     #speaker_dict = [None] * n
+    return e
 
+
+    #dict_array = np.array(speaker_dict)
+    #np.save("speakers_dictionary",dict_array)
+def write_output_in_files(model_path):
+    e = output(model_path)
+    embedding_folder_name = "speaker_embeddings"
     for i, file in enumerate(os.listdir(config.test_path)):
         #speaker_dict[i] = file.strip('/')
 
         np.save("../"+embedding_folder_name+"/"+file,e[i])
-
-    #dict_array = np.array(speaker_dict)
-    #np.save("speakers_dictionary",dict_array)
