@@ -326,7 +326,7 @@ def output(model_path):
 
     #n = len(os.listdir(config.test_path))
     #speaker_dict = [None] * n
-    tsne_plot( os.listdir(config.test_path) , e )
+    #tsne_plot( os.listdir(config.test_path) , e )
     return e
 
 
