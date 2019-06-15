@@ -56,8 +56,8 @@ def factory_input():
     total_speaker = len(np_file_list)
 
     selected_files = np_file_list[0:]                # select first N speakers
-    print("files: "+str(selected_files))
-    print(total_speaker)
+    #print("files: "+str(selected_files))
+    #print(total_speaker)
     utter_batch = []
     counter = 0
     corrupted = []
@@ -66,7 +66,7 @@ def factory_input():
     for file in selected_files:
         utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
         if utters.shape[0] != 0:
-            print(utters.shape)
+            #print(utters.shape)
             utter_batch.append(utters[0:config.M])
 
         else:
