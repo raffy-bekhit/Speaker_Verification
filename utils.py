@@ -182,7 +182,7 @@ def normalize(x):
 def cossim(x,y, normalized=True):
     """ calculate similarity between tensors
     :return: cos similarity tf op node
-    """, FAR:%0.2f, FRR:%0.2f)
+    """
     if normalized:
         return tf.reduce_sum(x*y)
     else:
