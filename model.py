@@ -203,6 +203,7 @@ def test(path):
         checkpoints =  ckpt.all_model_checkpoint_paths
         i=0
         least_loss = 99999
+        print("checkpoints : ",checkpoints)
 
         while(i<len(checkpoints)):
             saver.restore(sess, checkpoints[i])
