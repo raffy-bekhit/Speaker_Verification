@@ -221,6 +221,8 @@ def test(path):
                 perfect_step = checkpoints[i]
                 least_loss = L
             i = i + 10
+            print(i)
+            print(L)
 
 
         print("\ncheckpoint: " perfect_step + " (loss:%0.2f)"%(least_loss))
