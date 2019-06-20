@@ -189,16 +189,45 @@ def test(path):
     verif_embed = embedded[config.N*config.M:, :]
 
     similarity_matrix = similarity(embedded=verif_embed, w=1., b=0., center=enroll_embed)
+    loss = loss_cal(similarity_matrix, type=config.loss)
+
+
 
     saver = tf.train.Saver(var_list=tf.global_variables())
     with tf.Session() as sess:
         tf.global_variables_initializer().run()
 
         # load model
-        print("model path :", path)
-        #ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path, "Check_Point"))
-        #print("dirrrrrrrrrr:::",path)
-        ckpt = tf.train.latest_checkpoint(checkpoint_dir=path)
+
+        ckpt = tf.train.get_checkpoint_state(path)
+        checkpoints =  ckpt.all_model_checkpoint_paths
+        i=0
+        least_loss = 99999
+
+        while(index<len(checkpoint)):
+            saver.restore(sess, checkpoints[i])
+
+
+
+            S, L = sess.run([similarity_matrix, loss], feed_dict={enroll:random_batch(shuffle=False),
+                                                           verif:random_batch(shuffle=False, utter_start=config.M)})
+            S = S.reshape([config.N, config.M, -1])
+            print("test file path : ", config.test_path)
+            np.set_printoptions(precision=2)
+            #print(S)
+
+            if L < least_loss:
+                #diff = abs(FAR-FRR)
+                perfect_step = checkpoints[i]
+                least_loss = L
+            i = i + 10
+
+
+        print("\ncheckpoint: : %0.2f (loss:%0.2f)"%(perfect_step,least_loss))
+
+
+
+
         #ckpt_list = ckpt.all_model_checkpoint_paths
         #loaded = 0
         #for model in ckpt_list:
@@ -208,53 +237,32 @@ def test(path):
         #        saver.restore(sess, model)  # restore variables from selected ckpt file
         #        break
         #print("checkpoint_directory:::::: ",ckpt)
-        saver.restore(sess, ckpt)
+
 
         #if loaded == 0:
         #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
 
-        print("test file path : ", config.test_path)
+
 
         # return similarity matrix after enrollment and verification
-        time1 = time.time() # for check inference time
-        if config.tdsv:
-            S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
-                                                       verif:random_batch(shuffle=False, noise_filenum=2)})
-        else:
-            S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False),
-                                                       verif:random_batch(shuffle=False, utter_start=config.M)})
-        S = S.reshape([config.N, config.M, -1])
-        time2 = time.time()
+        #time1 = time.time() # for check inference time
+        #if config.tdsv:
+        #    S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
+                                                      # verif:random_batch(shuffle=False, noise_filenum=2)})
+    #    else:
 
-        np.set_printoptions(precision=2)
-        print("inference time for %d utterences : %0.2fs"%(2*config.M*config.N, time2-time1))
-        print(S)    # print similarity matrix
+        #time2 = time.time()
+
+
+        #print("inference time for %d utterences : %0.2fs"%(2*config.M*config.N, time2-time1))
+            # print similarity matrix
 
         # calculating EER
-        diff = 1; EER=0; EER_thres = 0; EER_FAR=0; EER_FRR=0
-
-        # through thresholds calculate false acceptance ratio (FAR) and false reject ratio (FRR)
-        for thres in [0.01*i+0.5 for i in range(50)]:
-            S_thres = S>thres
-
-            # False acceptance ratio = false acceptance / mismatched population (enroll speaker != verification speaker)
-            FAR = sum([np.sum(S_thres[i])-np.sum(S_thres[i,:,i]) for i in range(config.N)])/(config.N-1)/config.M/config.N
-
-            # False reject ratio = false reject / matched population (enroll speaker = verification speaker)
-            FRR = sum([config.M-np.sum(S_thres[i][:,i]) for i in range(config.N)])/config.M/config.N
-
-            # Save threshold when FAR = FRR (=EER)
-            if diff> abs(FAR-FRR):
-                diff = abs(FAR-FRR)
-                EER = (FAR+FRR)/2
-                EER_thres = thres
-                EER_FAR = FAR
-                EER_FRR = FRR
-
-        print("\nEER : %0.2f (thres:%0.2f, FAR:%0.2f, FRR:%0.2f)"%(EER,EER_thres,EER_FAR,EER_FRR))
 
 
-def output(model_path):
+
+
+def output(model_path, step):
 
 
     tf.reset_default_graph()
@@ -277,7 +285,7 @@ def output(model_path):
     #print("embedded size: ", embedded.shape)
 
     # enrollment embedded vectors (speaker model)
-    enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:N*config.M, :], shape= [N, config.M, -1]), axis=1))
+    #enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:N*config.M, :], shape= [N, config.M, -1]), axis=1))
     # verification embedded vectors
     #verif_embed = embedded[config.N*config.M:, :]
 
@@ -315,7 +323,7 @@ def output(model_path):
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
-            e = sess.run(enroll_embed, feed_dict={enroll:factory_input()})
+            e = sess.run(embedded, feed_dict={enroll:factory_input()})
 
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
