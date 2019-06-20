@@ -223,7 +223,7 @@ def test(path):
             i = i + 10
 
 
-        print("\ncheckpoint: : %0.2f (loss:%0.2f)"%(perfect_step,least_loss))
+        print("\ncheckpoint: " perfect_step + " (loss:%0.2f)"%(least_loss))
 
 
 
