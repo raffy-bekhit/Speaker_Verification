@@ -201,11 +201,11 @@ def test(path):
 
         #ckpt = tf.train.get_checkpoint_state(path)
         #checkpoints =  ckpt.all_model_checkpoint_paths
-        i=10999
+        i=349999
         least_loss = 99999
         #print("checkpoints : ",checkpoints)
 
-        while(i<479999):
+        while(i<399999):
             saver.restore(sess,os.path.join( path , "model.ckpt-"+str(i)))
 
 
@@ -221,7 +221,7 @@ def test(path):
                 #diff = abs(FAR-FRR)
                 perfect_step = i
                 least_loss = L
-            i = i + 10000
+            i = i + 5000
             print(i)
             print(L)
 
