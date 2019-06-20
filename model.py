@@ -204,7 +204,7 @@ def test(path):
         i=0
         least_loss = 99999
 
-        while(index<len(checkpoint)):
+        while(i<len(checkpoint)):
             saver.restore(sess, checkpoints[i])
 
 
