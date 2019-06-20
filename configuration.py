@@ -35,6 +35,8 @@ data_arg.add_argument('--tdsv_frame', type=int, default=80, help="frame number o
 data_arg.add_argument('--tisv_frame', type=int, default=180, help="max frame number of utterances of tisv")
 data_arg.add_argument('--dataset_audio_path',type=str, default='./dataset', help="dataset audio directory")
 data_arg.add_argument('--speaker_id', type=int, default=0, help="speaker id for preprocessing")
+data_arg.add_argument('--preprocess_all_speaker_files', type=str2bool, default=False, help="preprocess all files of a speaker in single spectrogram")
+
 # Model Parameters
 model_arg = parser.add_argument_group('Model')
 model_arg.add_argument('--hidden', type=int, default=768, help="hidden state dimension of lstm")

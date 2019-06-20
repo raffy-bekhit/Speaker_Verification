@@ -187,6 +187,10 @@ def split_test_train_data():
 if __name__ == "__main__":
     #extract_noise()
     #if config.tdsv:
-    save_spectrogram_tisv_for_each_wav()
+    if(config.preprocess_all_speaker_files):
+        save_spectrogram_tisv(0)
+
+    else:
+        save_spectrogram_tisv_for_each_wav()
     #else:
     #save_spectrogram_tisv(0)
