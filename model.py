@@ -288,7 +288,7 @@ def output(model_path, step):
     #print("embedded size: ", embedded.shape)
 
     # enrollment embedded vectors (speaker model)
-    #enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:N*config.M, :], shape= [N, config.M, -1]), axis=1))
+    enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:N*config.M, :], shape= [N, config.M, -1]), axis=1))
     # verification embedded vectors
     #verif_embed = embedded[config.N*config.M:, :]
 
@@ -326,7 +326,7 @@ def output(model_path, step):
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
-            e = sess.run(embedded, feed_dict={enroll:factory_input()})
+            e = sess.run(enroll_embed, feed_dict={enroll:factory_input()})
 
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
