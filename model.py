@@ -199,14 +199,14 @@ def test(path):
 
         # load model
 
-        ckpt = tf.train.get_checkpoint_state(path)
-        checkpoints =  ckpt.all_model_checkpoint_paths
+        #ckpt = tf.train.get_checkpoint_state(path)
+        #checkpoints =  ckpt.all_model_checkpoint_paths
         i=10999
         least_loss = 99999
-        print("checkpoints : ",checkpoints)
+        #print("checkpoints : ",checkpoints)
 
         while(i<479999):
-            saver.restore(sess, checkpoints[i])
+            saver.restore(sess,os.path.join( path , "model.ckpt-"+str(i)))
 
 
 
