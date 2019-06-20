@@ -225,7 +225,7 @@ def test(path):
             print(L)
 
 
-        print("\ncheckpoint: " perfect_step + " (loss:%0.2f)"%(least_loss))
+        print("\ncheckpoint: "+ perfect_step + " (loss:%0.2f)"%(least_loss))
 
 
 
