@@ -201,7 +201,7 @@ def test(path):
 
         #ckpt = tf.train.get_checkpoint_state(path)
         #checkpoints =  ckpt.all_model_checkpoint_paths
-        i=349999
+        i=249999
         least_loss = 99999
         #print("checkpoints : ",checkpoints)
 
@@ -226,7 +226,7 @@ def test(path):
             print(L)
 
 
-        print("\ncheckpoint: "+ perfect_step + " (loss:%0.2f)"%(least_loss))
+        print("\ncheckpoint: "+ str(perfect_step) + " (loss:%0.2f)"%(least_loss))
 
 
 
