@@ -45,6 +45,7 @@ model_arg.add_argument('--num_layer', type=int, default=3, help="number of lstm 
 model_arg.add_argument('--restore', type=str2bool, default=True, help="restore model or not")
 model_arg.add_argument('--model_path', type=str, default='./tisv_model', help="model directory to save or load")
 model_arg.add_argument('--model_num', type=int, default=6, help="number of ckpt file to load")
+model_arg.add_argument('--restore_step', type=int, default=99999, help="choose the step to restore to get embeddings")
 
 # Training Parameters
 train_arg = parser.add_argument_group('Training')

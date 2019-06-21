@@ -266,7 +266,7 @@ def test(path):
 
 
 
-def output(model_path, step):
+def output(model_path):
 
 
     tf.reset_default_graph()
@@ -304,17 +304,9 @@ def output(model_path, step):
         # load model
         print("model path :", model_path)
         #ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path, "Check_Point"))
-        ckpt = tf.train.latest_checkpoint(checkpoint_dir=model_path)
-        #ckpt_list = ckpt.all_model_checkpoint_paths
-        #loaded = 0
-        #for model in ckpt_list:
-        #    if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
-        #        print("ckpt file is loaded !", model)
-        #        loaded = 1
-        #        saver.restore(sess, model)  # restore variables from selected ckpt file
-        #        break
-        #print("checkpoint_directory:::::: ",ckpt)
-        saver.restore(sess, ckpt)
+        #ckpt = tf.train.latest_checkpoint(checkpoint_dir=model_path)
+        #saver.restore(sess, ckpt)
+        saver.restore(sess,os.path.join( path , "model.ckpt-"+str(config.restore_step)))
 
         #if loaded == 0:
         #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
