@@ -306,7 +306,7 @@ def output(model_path):
         #ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path, "Check_Point"))
         #ckpt = tf.train.latest_checkpoint(checkpoint_dir=model_path)
         #saver.restore(sess, ckpt)
-        saver.restore(sess,os.path.join( path , "model.ckpt-"+str(config.restore_step)))
+        saver.restore(sess,os.path.join( model_path , "model.ckpt-"+str(config.restore_step)))
 
         #if loaded == 0:
         #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
