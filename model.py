@@ -221,9 +221,10 @@ def test(path):
                 #diff = abs(FAR-FRR)
                 perfect_step = i
                 least_loss = L
-            i = i + 5000
+
             print(i)
             print(L)
+            i = i + 5000
 
 
         print("\ncheckpoint: "+ str(perfect_step) + " (loss:%0.2f)"%(least_loss))
