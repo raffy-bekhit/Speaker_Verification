@@ -121,7 +121,8 @@ def train(path):
 
             if(iter - prev_iter > 1):
                 epoch = config.N * (iter+1) // training_data_size
-                lr_factor = lr_factor / (2**(epoch//100))
+                #lr_factor = lr_factor / (2**(epoch//100))
+                lr_factor = lr_factor / (2**(iter//10000))
                 print("restored epoch:", epoch)
                 print("restored learning rate:", lr_factor*config.lr)
 
@@ -133,17 +134,23 @@ def train(path):
                 print("(iter : %d) loss: %.4f" % ((iter+1),loss_acc/100))
                 loss_acc = 0                        # reset accumulated loss
 
-            if config.N * (iter+1) % training_data_size == 0:
-                epoch = epoch + 1
-                print("epoch: ", epoch)
-
-
-
-
-            if ((config.N * (iter+1)) / training_data_size)%100  == 0:
-                lr_factor = lr_factor / 2
-                print("learning factor: " , lr_factor)
+            #if config.N * (iter+1) % training_data_size == 0:
+            #    epoch = epoch + 1
+            #    print("epoch: ", epoch)
+                
+            if (iter+1) % 10000 == 0:
+                lr_factor /= 2
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
+                
+            
+
+
+
+
+            #if ((config.N * (iter+1)) / training_data_size)%100  == 0:
+            #    lr_factor = lr_factor / 2
+            #    print("learning factor: " , lr_factor)
+            #    print("learning rate is decayed! current lr : ", config.lr*lr_factor)
 
             if (iter+1) % 5000 == 0:
                 saver.save(sess, os.path.join(path, "Check_Point/model.ckpt"), global_step=iter) #pooooooooooooint
