@@ -151,7 +151,10 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
 
         utter_batch = []
         for file in selected_files:
+            
             utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
+            print(utters[0:])
+            print(os.path.join(path, file))
             if shuffle:
                 #utter_batch.append(random.sample(utters,utter_num))
                 utter_index = np.random.randint(0, utters.shape[0], utter_num)   # select M utterances per speaker
