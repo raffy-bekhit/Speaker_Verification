@@ -78,8 +78,7 @@ def factory_input():
 
 
     utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
-    print("shape: ",utter_batch.shape)
-    print("corrupted: ", counter)
+  
 
     if os.stat("corrupted_filenames.txt").st_size == 0:
         cor_file = open("corrupted_filenames.txt","w+")
