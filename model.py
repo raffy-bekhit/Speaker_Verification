@@ -345,8 +345,8 @@ def output(model_path):
     #np.save("speakers_dictionary",dict_array)
 def write_output_in_files(model_path):
     e = output(model_path)
-    embedding_folder_name = "speaker_embeddings"
+    embedding_folder_name = config.embeddings_path
     for i, file in enumerate(os.listdir(config.test_path)):
         #speaker_dict[i] = file.strip('/')
 
-        np.save("../"+embedding_folder_name+"/"+file,e[i])
+        np.save(embedding_folder_name+"/"+file,e[i])
