@@ -1,8 +1,8 @@
-import tensorflow as tf
+files_pathimport tensorflow as tf
 import numpy as np
 import os
 import time
-from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input, tsne_plot
+from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input, tsne_plot , move_corrupted_files
 from configuration import get_config
 from tensorflow.contrib import rnn
 import shutil
@@ -137,12 +137,12 @@ def train(path):
             #if config.N * (iter+1) % training_data_size == 0:
             #    epoch = epoch + 1
             #    print("epoch: ", epoch)
-                
+
             if (iter+1) % 10000 == 0:
                 lr_factor /= 2
                 print("learning rate is decayed! current lr : ", config.lr*lr_factor)
-                
-            
+
+
 
 
 
@@ -239,51 +239,19 @@ def test(path):
 
 
 
-        #ckpt_list = ckpt.all_model_checkpoint_paths
-        #loaded = 0
-        #for model in ckpt_list:
-        #    if config.model_num == int(model[-1]):    # find ckpt file which matches configuration model number
-        #        print("ckpt file is loaded !", model)
-        #        loaded = 1
-        #        saver.restore(sess, model)  # restore variables from selected ckpt file
-        #        break
-        #print("checkpoint_directory:::::: ",ckpt)
 
 
-        #if loaded == 0:
-        #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
+def output(model_path,files_path=config.test_path):
 
-
-
-        # return similarity matrix after enrollment and verification
-        #time1 = time.time() # for check inference time
-        #if config.tdsv:
-        #    S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
-                                                      # verif:random_batch(shuffle=False, noise_filenum=2)})
-    #    else:
-
-        #time2 = time.time()
-
-
-        #print("inference time for %d utterences : %0.2fs"%(2*config.M*config.N, time2-time1))
-            # print similarity matrix
-
-        # calculating EER
-
-
-
-
-def output(model_path):
+    move_corrupted_files(files_path)
 
 
     tf.reset_default_graph()
 
-    N = len(os.listdir(config.test_path))
+    N = len(os.listdir(files_path))
 
     # draw graph
     enroll = tf.placeholder(shape=[None, N*config.M, 40], dtype=tf.float32) # enrollment batch (time x batch x n_mel)
-    #verif = tf.placeholder(shape=[None, config.N*config.M, 40], dtype=tf.float32)  # verification batch (time x batch x n_mel)
-    #batch = tf.concat([enroll, verif], axis=1)
 
     # embedding lstm (3-layer default)
     with tf.variable_scope("lstm"):
@@ -297,10 +265,6 @@ def output(model_path):
 
     # enrollment embedded vectors (speaker model)
     enroll_embed = normalize(tf.reduce_mean(tf.reshape(embedded[:N*config.M, :], shape= [N, config.M, -1]), axis=1))
-    # verification embedded vectors
-    #verif_embed = embedded[config.N*config.M:, :]
-
-    #similarity_matrix = similarity(embedded=verif_embed, w=1., b=0., center=enroll_embed)
 
     saver = tf.train.Saver(var_list=tf.global_variables())
     with tf.Session() as sess:
@@ -310,43 +274,30 @@ def output(model_path):
 
         # load model
         print("model path :", model_path)
-        #ckpt = tf.train.latest_checkpoint(checkpoint_dir=os.path.join(path, "Check_Point"))
-        #ckpt = tf.train.latest_checkpoint(checkpoint_dir=model_path)
-        #saver.restore(sess, ckpt)
+
         saver.restore(sess,os.path.join( model_path , "model.ckpt-"+str(config.restore_step)))
 
-        #if loaded == 0:
-        #    raise AssertionError("ckpt file does not exist! Check config.model_num or config.model_path.")
 
-        print("test file path : ", config.test_path)
+        print("test file path : ", files_path)
 
-        # return similarity matrix after enrollment and verification
+
         time1 = time.time() # for check inference time
         if config.tdsv:
             S = sess.run(similarity_matrix, feed_dict={enroll:random_batch(shuffle=False, noise_filenum=1),
                                                        verif:random_batch(shuffle=False, noise_filenum=2)})
         else:
-            e = sess.run(enroll_embed, feed_dict={enroll:factory_input()})
+            e = sess.run(enroll_embed, feed_dict={enroll:factory_input(files_path)})
 
         print("embedding shape: " , e.shape)
         print("embedding: " , e)
 
 
-    #np.save(embedding_file_name,e)
-
-
-    #n = len(os.listdir(config.test_path))
-    #speaker_dict = [None] * n
-    #tsne_plot( os.listdir(config.test_path) , e )
     return e
 
 
-    #dict_array = np.array(speaker_dict)
-    #np.save("speakers_dictionary",dict_array)
-def write_output_in_files(model_path):
-    e = output(model_path)
-    embedding_folder_name = config.embeddings_path
+def write_output_in_files(model_path,files_path=config.test_path,embeddings_output_path=config.embeddings_path):
+    e = output(model_path,files_path)
+    embedding_folder_name = embeddings_output_path
     for i, file in enumerate(os.listdir(config.test_path)):
-        #speaker_dict[i] = file.strip('/')
 
         np.save(embedding_folder_name+"/"+file,e[i])

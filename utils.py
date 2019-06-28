@@ -50,8 +50,40 @@ def tsne_plot(names, embeddings):
     plt.show()
 
 
-def factory_input():
-    path = config.test_path
+def move_corrupted_files(path):
+
+    np_file_list = os.listdir(path)
+    total_speaker = len(np_file_list)
+
+    selected_files = np_file_list[0:]                # select first N speakers
+    utter_batch = []
+    counter = 0
+    corrupted = []
+
+
+    if not os.path.exists("../corrupted_spectrograms/"):
+        os.mkdir("../corrupted_spectrograms/")
+
+
+    for file in selected_files:
+        utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
+        if utters.shape[0] == 0:
+
+            corrupted.append(file)
+            counter=counter+1
+            shutil.move(os.path.join(path, file),"../corrupted_spectrograms/"+file)
+
+    cor_file = open("corrupted_filenames.txt","a+")
+
+    for cor_name in corrupted:
+        cor_file.write(cor_name+"\n")
+
+    cor_file.close()
+
+
+
+def factory_input(test_path=config.test_path):
+    path = test_path
     np_file_list = os.listdir(path)
     total_speaker = len(np_file_list)
 
@@ -59,32 +91,20 @@ def factory_input():
     #print("files: "+str(selected_files))
     #print(total_speaker)
     utter_batch = []
-    counter = 0
-    corrupted = []
-
 
     for file in selected_files:
         utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
-        if utters.shape[0] != 0:
-            #print(utters.shape)
-            utter_batch.append(utters[0:config.M])
 
-        else:
-            corrupted.append(file)
-            counter=counter+1
-            shutil.move(os.path.join(path, file),"../corrupted_spectrograms/"+file)
+        utter_batch.append(utters[0:config.M])
+
 
 
 
 
     utter_batch = np.concatenate(utter_batch, axis=0)     # utterance batch [batch(NM), n_mels, frames]
-  
 
-    if os.stat("corrupted_filenames.txt").st_size == 0:
-        cor_file = open("corrupted_filenames.txt","w+")
-        for cor_name in corrupted:
-            cor_file.write(cor_name+"\n")
-        cor_file.close()
+
+
 
     utter_batch = utter_batch[:,:,:160]               # for train session, fixed length slicing of input batch
 
@@ -150,9 +170,9 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
 
         utter_batch = []
         for file in selected_files:
-            
+
             utters = np.load(os.path.join(path, file))        # load utterance spectrogram of selected speaker
-     
+
             if shuffle:
                 #utter_batch.append(random.sample(utters,utter_num))
                 utter_index = np.random.randint(0, utters.shape[0], utter_num)   # select M utterances per speaker
