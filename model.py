@@ -231,7 +231,7 @@ def test(path):
 
             print(i)
             print(str(L/(config.N*config.M)))
-            i = i + 5000
+            i = i + 2500
 
 
         print("\ncheckpoint: "+ str(perfect_step) + " (loss:%0.2f)"%(least_loss))
