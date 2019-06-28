@@ -230,7 +230,7 @@ def test(path):
                 least_loss = L
 
             print(i)
-            print(L/N)
+            print(str(L/config.N))
             i = i + 5000
 
 
