@@ -295,10 +295,11 @@ def output(model_path,files_path=config.test_path):
     return e
 
 
-def write_output_in_files(model_path,files_path=config.test_path,embeddings_output_path=config.embeddings_path):
+def write_output_in_files(model_path=config.model_path,files_path=config.test_path,embeddings_output_path=config.embeddings_path):
     e = output(model_path,files_path)
-    if not os.path.exists("../"+embeddings_output_path):
-        os.mkdir("../"+embeddings_output_path)
+    if not os.path.exists(embeddings_output_path):
+        os.mkdir(embeddings_output_path)
+        
     for i, file in enumerate(os.listdir(config.test_path)):
 
         np.save(embeddings_output_path+"/"+file,e[i])
