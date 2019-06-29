@@ -295,7 +295,7 @@ def output(model_path,files_path=config.test_path):
 
     return e
 
-def write_output_after_preprocessing(model_path=config.model_path,file_path=config.test_path,embeddings_output_path=config.embeddings_path):
+def write_output_without_preprocessing(model_path=config.model_path,file_path=config.test_path,embeddings_output_path=config.embeddings_path):
 
     e = output(model_path,file_path)
 

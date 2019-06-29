@@ -1,7 +1,8 @@
 import tensorflow as tf
 import os
-from model import train, test, output,write_output_in_files
+from model import train, test, output,write_output_in_files, write_output_without_preprocessing
 from configuration import get_config
+
 
 config = get_config()
 tf.reset_default_graph()
@@ -21,6 +22,6 @@ if __name__ == "__main__":
         #if os.path.isdir(config.model_path):
         else:
             #output(config.model_path)
-            write_output_after_preprocessing(config.model_path)
+            write_output_without_preprocessing(config.model_path)
         #else:
         #    raise AssertionError("model path doesn't exist!")
