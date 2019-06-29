@@ -130,26 +130,31 @@ def save_spectrogram_tisv(i):
         #else:
         #    np.save(os.path.join(config.test_path, "speaker%d.npy"%(i-train_speaker_num)), utterances_spec)
 
-def save_spectrogram_tisv_for_each_wav():
+def save_spectrogram_tisv_for_each_wav(wav_path=config.dataset_audio_path):
     """ Full preprocess of text independent utterance. The log-mel-spectrogram is saved as numpy file.
         Each partial utterance is splitted by voice detection using DB
         and the first and the last 180 frames from each partial utterance are saved.
         Need : utterance data set (VTCK)
     """
-    print("start text independent utterance feature extraction")
-    os.makedirs(config.train_path, exist_ok=True)##   # make folder to save train file
-    os.makedirs(config.test_path, exist_ok=True) ##   # make folder to save test file
+#    print("start text independent utterance feature extraction")
 
     utter_min_len = (config.tisv_frame * config.hop + config.window) * config.sr    # lower bound of utterance length
-    total_speaker_num = len(os.listdir(config.dataset_audio_path))##
+    total_speaker_num = len(os.listdir(wav_path))##
     #train_speaker_num= (total_speaker_num//10)*9 ##            # split total data 90% train and 10% test
     #print("total speaker number : %d"%total_speaker_num)
     #print("train : %d, test : %d"%(train_speaker_num, total_speaker_num-train_speaker_num))
-    for j, folder in enumerate(os.listdir(config.dataset_audio_path)):
-        speaker_path = os.path.join(config.dataset_audio_path, folder)     # path of each speaker
+    if not os.path.exists("./speaker_verification_spectrograms/"):
+        os.mkdir("./speaker_verification_spectrograms/")
+
+
+
+    for j, folder in enumerate(os.listdir(wav_path)):
+        speaker_path = os.path.join(wav_path, folder)     # path of each speaker
         #print("%dth speaker processing..."%i)
         utterances_spec = []
         k=0
+
+
         for utter_name in os.listdir(speaker_path):
             utterances_spec = []
             utter_path = os.path.join(speaker_path, utter_name)         # path of each utterance
@@ -170,7 +175,7 @@ def save_spectrogram_tisv_for_each_wav():
             utterances_spec = np.array(utterances_spec)
             #print(utterances_spec.shape)
         #if i<train_speaker_num:      # save spectrogram as numpy file
-            np.save(os.path.join("../speaker_verification_spectrograms", folder+"_"+utter_name.split(".")[0]+".npy"), utterances_spec)
+            np.save(os.path.join("./speaker_verification_spectrograms", folder+"_"+utter_name.split(".")[0]+".npy"), utterances_spec)
             #k=k+1
         #else:
         #    np.save(os.path.join(config.test_path, "speaker%d.npy"%(i-train_speaker_num)), utterances_spec)

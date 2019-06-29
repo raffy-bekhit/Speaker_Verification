@@ -61,8 +61,8 @@ def move_corrupted_files(path):
     corrupted = []
 
 
-    if not os.path.exists("../corrupted_spectrograms/"):
-        os.mkdir("../corrupted_spectrograms/")
+    if not os.path.exists("./corrupted_spectrograms/"):
+        os.mkdir("./corrupted_spectrograms/")
 
 
     for file in selected_files:
@@ -71,7 +71,7 @@ def move_corrupted_files(path):
 
             corrupted.append(file)
             counter=counter+1
-            shutil.move(os.path.join(path, file),"../corrupted_spectrograms/"+file)
+            shutil.move(os.path.join(path, file),"./corrupted_spectrograms/"+file)
 
     cor_file = open("corrupted_filenames.txt","a+")
 
