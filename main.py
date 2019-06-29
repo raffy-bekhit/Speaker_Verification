@@ -21,6 +21,6 @@ if __name__ == "__main__":
         #if os.path.isdir(config.model_path):
         else:
             #output(config.model_path)
-            write_output_in_files(config.model_path)
+            write_output_after_preprocessing(config.model_path)
         #else:
         #    raise AssertionError("model path doesn't exist!")

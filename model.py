@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import os
 import time
-from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input, tsne_plot , move_corrupted_files
+from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input, tsne_plot , move_corrupted_files, save_spectrogram_tisv_for_each_wav
 from configuration import get_config
 from tensorflow.contrib import rnn
 import shutil
@@ -294,8 +294,17 @@ def output(model_path,files_path=config.test_path):
 
     return e
 
+def write_output_after_preprocessing(model_path=config.model_path,file_path=config.test_path,embeddings_output_path=config.embeddings_path):
 
-def write_output_in_files(model_path=config.model_path,wav_path=config.test_path,embeddings_output_path=config.embeddings_path):
+    e = output(model_path,file_path)
+
+    if not os.path.exists(embeddings_output_path):
+        os.mkdir(embeddings_output_path)
+
+    for i, file in enumerate(os.listdir(config.test_path)):
+        np.save(embeddings_output_path+"/"+file,e[i])
+
+def write_output_in_files(model_path=config.model_path,wav_path=config.dataset_audio_path,embeddings_output_path=config.embeddings_path):
 
     save_spectrogram_tisv_for_each_wav(wav_path)
     e = output(model_path,"./speaker_verification_spectrograms")
