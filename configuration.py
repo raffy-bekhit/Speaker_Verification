@@ -54,7 +54,7 @@ train_arg.add_argument('--train', type=str2bool, default=True, help="train sessi
 train_arg.add_argument('--test', type=str2bool, default=False, help="test session or output")
 
 train_arg.add_argument('--N', type=int, default=4, help="number of speakers of batch")
-train_arg.add_argument('--M', type=int, default=5, help="number of utterances per speaker")
+train_arg.add_argument('--M', type=int, default=2, help="number of utterances per speaker")
 train_arg.add_argument('--noise_filenum', type=int, default=16, help="how many noise files will you use")
 train_arg.add_argument('--loss', type=str, default='softmax', help="loss type (softmax or contrast)")
 train_arg.add_argument('--optim', type=str.lower, default='sgd', help="optimizer type")
