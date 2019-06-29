@@ -2,7 +2,8 @@ import tensorflow as tf
 import numpy as np
 import os
 import time
-from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input, tsne_plot , move_corrupted_files, save_spectrogram_tisv_for_each_wav
+from utils import random_batch, normalize, similarity, loss_cal, optim, factory_input, tsne_plot , move_corrupted_files
+from data_preprocess import save_spectrogram_tisv_for_each_wav
 from configuration import get_config
 from tensorflow.contrib import rnn
 import shutil
